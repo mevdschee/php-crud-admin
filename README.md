@@ -1,6 +1,6 @@
-# PHP-CRUD-UI
+# PHP-CRUD-ADMIN
 
-Single file PHP script that adds a UI to a [PHP-CRUD-API](https://github.com/mevdschee/php-crud-api) project
+Single file PHP script that adds an database admin interface to a [PHP-CRUD-API](https://github.com/mevdschee/php-crud-api) project
 
 ## Requirements
 
@@ -9,7 +9,7 @@ Single file PHP script that adds a UI to a [PHP-CRUD-API](https://github.com/mev
 
 ## Installation
 
-This is a single file application! Upload "`ui.php`" somewhere and enjoy!
+This is a single file application! Upload "`admin.php`" somewhere and enjoy!
 
 For local development you may run PHP's built-in web server:
 
@@ -17,18 +17,18 @@ For local development you may run PHP's built-in web server:
 
 Test the script by opening the following URL:
 
-    http://localhost:8080/ui.php/
+    http://localhost:8080/admin.php/
 
 Don't forget to modify the configuration at the bottom of the file.
 
 ## Compilation
 
-You can compile all files into a single "`ui.php`" file using:
+You can compile all files into a single "`admin.php`" file using:
 
     php build.php
 
 You can access the non-compiled code at the URL:
 
-    http://localhost:8080/src/records/posts/1
+    http://localhost:8080/src/
 
 The non-compiled code resides in the "`src`" and "`vendor`" directories. The "`vendor`" directory contains the dependencies.
