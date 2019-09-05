@@ -1,0 +1,5 @@
+composer.phar
+composer.lock
+.git
+api.php
+start.sh
