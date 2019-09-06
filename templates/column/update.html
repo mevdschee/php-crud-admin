@@ -1,18 +1,18 @@
 <h2>{{table}}: update</h2>
 
 <form method="post">
-    {{for:value:key:column}}
+    {{for:field:key:form}}
         <div class="form-group">
-            <label for="{{key}}">{{key}}</label>
-            {{if:value.values}}
-                <select id="{{key}}" name="{{key}}" class="form-control">
+            <label for="{{key}}">{{key}}{{if:field.required}}*{{endif}}</label>
+            {{if:field.type|eq("select")}}
+                <select id="{{key}}" name="{{key}}" class="form-control"{{if:field.required}} required{{endif}}>
                     <option value=""></option>
-                    {{for:v:k:value.values}}
-                        <option value="{{k}}"{{if:k|eq(value.value)}} selected{{endif}}>{{v}}</option>
+                    {{for:v:k:field.values}}
+                        <option value="{{k}}"{{if:k|eq(field.value)}} selected{{endif}}>{{v}}</option>
                     {{endfor}}
                 </select>
             {{else}}
-                <input class="form-control" id="{{key}}" name="{{key}}" value="{{value.value}}"/>
+                <input class="form-control" id="{{key}}" name="{{key}}" type="{{field.type}}" value="{{field.value}}"{{if:field.required}} required{{endif}}>
             {{endif}}
         </div>
     {{endfor}}

@@ -1,18 +1,18 @@
 <h2>{{table}}: create</h2>
 
 <form method="post">
-    {{for:column:columns}}
+    {{for:field:key:form}}
         <div class="form-group">
-            <label for="{{column.name}}">{{column.name}}</label>
-            {{if:column.values}}
-                <select id="{{column.name}}" name="{{column.name}}" class="form-control">
+            <label for="{{key}}">{{key}}{{if:field.required}}*{{endif}}</label>
+            {{if:field.type|eq("select")}}
+                <select id="{{key}}" name="{{key}}" class="form-control"{{if:field.required}} required{{endif}}>
                     <option value=""></option>
-                    {{for:label:value:column.values}}
-                        <option value="{{value}}">{{label}}</option>
+                    {{for:v:k:field.values}}
+                        <option value="{{k}}"{{if:k|eq(field.value)}} selected{{endif}}>{{v}}</option>
                     {{endfor}}
                 </select>
             {{else}}
-                <input class="form-control" id="{{column.name}}" name="{{column.name}}" value=""{{if:column.name|eq(primaryKey)}} disabled{{endif}}/>
+                <input class="form-control" id="{{key}}" name="{{key}}" type="{{field.type}}" value="{{field.value}}"{{if:field.required}} required{{endif}}>
             {{endif}}
         </div>
     {{endfor}}

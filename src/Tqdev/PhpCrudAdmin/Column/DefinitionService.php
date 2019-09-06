@@ -77,6 +77,11 @@ class DefinitionService
         return $this->database['tables'][$tableName];
     }
 
+    public function getNewColumn()
+    {
+        return array_fill_keys($this->getColumnFields(), null);
+    }
+
     public function getColumn(string $tableName, string $columnName)
     {
         return $this->database['tables'][$tableName]['columns'][$columnName];

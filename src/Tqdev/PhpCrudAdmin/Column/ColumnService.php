@@ -5,7 +5,6 @@ namespace Tqdev\PhpCrudAdmin\Column;
 use Tqdev\PhpCrudAdmin\Client\CrudApi;
 use Tqdev\PhpCrudAdmin\Column\DefinitionService;
 use Tqdev\PhpCrudAdmin\Document\TemplateDocument;
-use Tqdev\PhpCrudAdmin\Document\CsvDocument;
 
 class ColumnService
 {
@@ -23,13 +22,13 @@ class ColumnService
         return $this->definition->hasTable($table, $action);
     }
 
-    private function getDataTypes(): array
+    private function getDataTypeValues(): array
     {
         $types = array('bigint', 'bit', 'blob', 'boolean', 'clob', 'date', 'decimal', 'double', 'float', 'geometry', 'integer', 'time', 'timestamp', 'varbinary', 'varchar');
         return array_combine($types, $types);
     }
 
-    private function getTableNames(): array
+    private function getTableNameValues(): array
     {
         $tables = $this->definition->getTableNames();
         return array_combine($tables, $tables);
@@ -40,41 +39,50 @@ class ColumnService
         return array('no', 'yes');
     }
 
-    private function getDropDownValues(string $relatedTable): array
+    private function makeForm(array $column): array
     {
-        $values = array();
-        if ($relatedTable) {
-            $pair = $this->definition->getColumnPair($relatedTable);
-            $args = array('include' => implode(',', $pair));
-            $data = $this->api->listRecords($relatedTable, $args);
-            foreach ($data['records'] as $record) {
-                if (count($pair) > 1) {
-                    $values[$record[$pair[0]]] = $record[$pair[1]];
-                } else {
-                    $values[$record[$pair[0]]] = $record[$pair[0]];
-                }
+        $form = array();
+        foreach ($column as $key => $value) {
+            $form[$key] = array('value' => $value, 'type' => 'text', 'required' => false);
+            switch ($key) {
+                case 'name':
+                    $form[$key]['required'] = true;
+                    break;
+                case 'type':
+                    $form[$key]['required'] = true;
+                    $form[$key]['type'] = 'select';
+                    $form[$key]['values'] = $this->getDataTypeValues();
+                    break;
+                case 'length':
+                case 'precision':
+                case 'scale':
+                    $form[$key]['type'] = 'number';
+                    break;
+                case 'nullable':
+                case 'pk':
+                    $form[$key]['required'] = true;
+                    $form[$key]['type'] = 'select';
+                    $form[$key]['values'] = $this->getBooleanValues();
+                    break;
+                case 'fk':
+                    $form[$key]['type'] = 'select';
+                    $form[$key]['values'] = $this->getTableNameValues();
+                    break;
             }
         }
-        return $values;
+        return $form;
     }
 
     public function createForm(string $table, string $action): TemplateDocument
     {
-        $types = $this->getDataTypes();
-        $primaryKey = $this->definition->getPrimaryKey($table, $action);
+        $column = $this->definition->getNewColumn();
 
-        $columns = $this->definition->getColumns($table, $action);
-
-        foreach ($columns as $i => $column) {
-            $values = $this->getDropDownValues($references[$column]);
-            $columns[$i] = array('name' => $column, 'values' => $values);
-        }
+        $form = $this->makeForm($column);
 
         $variables = array(
             'table' => $table,
             'action' => $action,
-            'columns' => $columns,
-            'primaryKey' => $primaryKey,
+            'form' => $form,
         );
 
         return new TemplateDocument('layouts/default', 'column/create', $variables);
@@ -114,27 +122,13 @@ class ColumnService
     {
         $column = $this->definition->getColumn($table, $name);
 
-        foreach ($column as $key => $value) {
-            $column[$key] = array('value' => $value, 'values' => array());
-            switch ($key) {
-                case 'type':
-                    $column[$key]['values'] = $this->getDataTypes();
-                    break;
-                case 'nullable':
-                case 'pk':
-                    $column[$key]['values'] = $this->getBooleanValues();
-                    break;
-                case 'fk':
-                    $column[$key]['values'] = $this->getTableNames();
-                    break;
-            }
-        }
+        $form = $this->makeForm($column);
 
         $variables = array(
             'table' => $table,
             'action' => $action,
             'name' => $name,
-            'column' => $column,
+            'form' => $form,
         );
 
         return new TemplateDocument('layouts/default', 'column/update', $variables);
