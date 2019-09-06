@@ -17,22 +17,22 @@ class ColumnController
 
     public function __construct(Router $router, Responder $responder, ColumnService $service)
     {
-        $router->register('GET', '/*/create', array($this, 'createForm'));
-        $router->register('POST', '/*/create', array($this, 'create'));
-        $router->register('GET', '/*/read/*', array($this, 'read'));
-        $router->register('GET', '/*/update/*', array($this, 'updateForm'));
-        $router->register('POST', '/*/update/*', array($this, 'update'));
-        $router->register('GET', '/*/delete/*', array($this, 'deleteForm'));
-        $router->register('POST', '/*/delete/*', array($this, 'delete'));
-        $router->register('GET', '/*/list', array($this, '_list'));
-        $router->register('GET', '/*/export', array($this, 'export'));
+        $router->register('GET', '/admin/*/create', array($this, 'createForm'));
+        $router->register('POST', '/admin/*/create', array($this, 'create'));
+        $router->register('GET', '/admin/*/read/*', array($this, 'read'));
+        $router->register('GET', '/admin/*/update/*', array($this, 'updateForm'));
+        $router->register('POST', '/admin/*/update/*', array($this, 'update'));
+        $router->register('GET', '/admin/*/delete/*', array($this, 'deleteForm'));
+        $router->register('POST', '/admin/*/delete/*', array($this, 'delete'));
+        $router->register('GET', '/admin/*/list', array($this, '_list'));
+        $router->register('GET', '/admin/*/export', array($this, 'export'));
         $this->service = $service;
         $this->responder = $responder;
     }
 
     public function createForm(ServerRequestInterface $request): ResponseInterface
     {
-        $table = RequestUtils::getPathSegment($request, 1);
+        $table = RequestUtils::getPathSegment($request, 2);
         $action = RequestUtils::getPathSegment($request, 3);
         if (!$this->service->hasTable($table, $action)) {
             return $this->responder->error(ErrorCode::TABLE_NOT_FOUND, $table);
@@ -43,7 +43,7 @@ class ColumnController
 
     public function create(ServerRequestInterface $request): ResponseInterface
     {
-        $table = RequestUtils::getPathSegment($request, 1);
+        $table = RequestUtils::getPathSegment($request, 2);
         $action = RequestUtils::getPathSegment($request, 3);
         if (!$this->service->hasTable($table, $action)) {
             return $this->responder->error(ErrorCode::TABLE_NOT_FOUND, $table);
@@ -58,7 +58,7 @@ class ColumnController
 
     public function read(ServerRequestInterface $request): ResponseInterface
     {
-        $table = RequestUtils::getPathSegment($request, 1);
+        $table = RequestUtils::getPathSegment($request, 2);
         $action = RequestUtils::getPathSegment($request, 3);
         $name = RequestUtils::getPathSegment($request, 4);
         if (!$this->service->hasTable($table, $action)) {
@@ -70,7 +70,7 @@ class ColumnController
 
     public function updateForm(ServerRequestInterface $request): ResponseInterface
     {
-        $table = RequestUtils::getPathSegment($request, 1);
+        $table = RequestUtils::getPathSegment($request, 2);
         $action = RequestUtils::getPathSegment($request, 3);
         $name = RequestUtils::getPathSegment($request, 4);
         if (!$this->service->hasTable($table, $action)) {
@@ -82,7 +82,7 @@ class ColumnController
 
     public function update(ServerRequestInterface $request): ResponseInterface
     {
-        $table = RequestUtils::getPathSegment($request, 1);
+        $table = RequestUtils::getPathSegment($request, 2);
         $action = RequestUtils::getPathSegment($request, 3);
         $name = RequestUtils::getPathSegment($request, 4);
         if (!$this->service->hasTable($table, $action)) {
@@ -98,7 +98,7 @@ class ColumnController
 
     public function deleteForm(ServerRequestInterface $request): ResponseInterface
     {
-        $table = RequestUtils::getPathSegment($request, 1);
+        $table = RequestUtils::getPathSegment($request, 2);
         $action = RequestUtils::getPathSegment($request, 3);
         $name = RequestUtils::getPathSegment($request, 4);
         if (!$this->service->hasTable($table, 'read')) {
@@ -110,7 +110,7 @@ class ColumnController
 
     public function delete(ServerRequestInterface $request): ResponseInterface
     {
-        $table = RequestUtils::getPathSegment($request, 1);
+        $table = RequestUtils::getPathSegment($request, 2);
         $action = RequestUtils::getPathSegment($request, 3);
         $name = RequestUtils::getPathSegment($request, 4);
         if (!$this->service->hasTable($table, 'read')) {
@@ -122,22 +122,12 @@ class ColumnController
 
     public function _list(ServerRequestInterface $request): ResponseInterface
     {
-        $table = RequestUtils::getPathSegment($request, 1);
+        $table = RequestUtils::getPathSegment($request, 2);
         $action = RequestUtils::getPathSegment($request, 3);
         if (!$this->service->hasTable($table, $action)) {
             return $this->responder->error(ErrorCode::TABLE_NOT_FOUND, $table);
         }
         $result = $this->service->_list($table, $action);
-        return $this->responder->success($result);
-    }
-
-    public function export(ServerRequestInterface $request): ResponseInterface
-    {
-        $table = RequestUtils::getPathSegment($request, 1);
-        if (!$this->service->hasTable($table, 'list')) {
-            return $this->responder->error(ErrorCode::TABLE_NOT_FOUND, $table);
-        }
-        $result = $this->service->export($table, 'list');
         return $this->responder->success($result);
     }
 }

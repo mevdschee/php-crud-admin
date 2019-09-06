@@ -3,7 +3,7 @@
 namespace Tqdev\PhpCrudAdmin\Column;
 
 use Tqdev\PhpCrudAdmin\Client\CrudApi;
-use Tqdev\PhpCrudAdmin\Column\SpecificationService;
+use Tqdev\PhpCrudAdmin\Column\DefinitionService;
 use Tqdev\PhpCrudAdmin\Document\TemplateDocument;
 use Tqdev\PhpCrudAdmin\Document\CsvDocument;
 
@@ -12,7 +12,7 @@ class ColumnService
     private $api;
     private $definition;
 
-    public function __construct(CrudApi $api, SpecificationService $definition)
+    public function __construct(CrudApi $api, DefinitionService $definition)
     {
         $this->api = $api;
         $this->definition = $definition;
@@ -23,25 +23,21 @@ class ColumnService
         return $this->definition->hasTable($table, $action);
     }
 
-    private function getColumnFields(): array
+    private function getDataTypes(): array
     {
-        return ['name', 'type', 'length', 'precision', 'scale', 'nullable', 'pk', 'fk'];
+        $types = array('bigint', 'bit', 'blob', 'boolean', 'clob', 'date', 'decimal', 'double', 'float', 'geometry', 'integer', 'time', 'timestamp', 'varbinary', 'varchar');
+        return array_combine($types, $types);
     }
 
-    private function fillSparse(array &$array, array $keys)
+    private function getTableNames(): array
     {
-        foreach ($keys as $key) {
-            if (!key_exists($key, $array)) {
-                $array[$key] = null;
-            }
-        }
+        $tables = $this->definition->getTableNames();
+        return array_combine($tables, $tables);
     }
 
-    private function fillAllSparse(array &$array, array $keys)
+    private function getBooleanValues(): array
     {
-        foreach (array_keys($array) as $i) {
-            $this->fillSparse($array[$i], $keys);
-        }
+        return array('no', 'yes');
     }
 
     private function getDropDownValues(string $relatedTable): array
@@ -64,7 +60,7 @@ class ColumnService
 
     public function createForm(string $table, string $action): TemplateDocument
     {
-        $references = $this->definition->getReferences($table, $action);
+        $types = $this->getDataTypes();
         $primaryKey = $this->definition->getPrimaryKey($table, $action);
 
         $columns = $this->definition->getColumns($table, $action);
@@ -102,16 +98,13 @@ class ColumnService
 
     public function read(string $table, string $action, string $name): TemplateDocument
     {
-        $columnFields = $this->getColumnFields();
-
-        $record = $this->api->readColumn($table, $name, array());
-        $this->fillSparse($record, $columnFields);
+        $column = $this->definition->getColumn($table, $name);
 
         $variables = array(
             'table' => $table,
             'action' => $action,
             'name' => $name,
-            'record' => $record,
+            'column' => $column,
         );
 
         return new TemplateDocument('layouts/default', 'column/read', $variables);
@@ -119,22 +112,29 @@ class ColumnService
 
     public function updateForm(string $table, string $action, string $name): TemplateDocument
     {
-        $references = $this->definition->getReferences($table, $action);
-        $primaryKey = $this->definition->getPrimaryKey($table, $action);
+        $column = $this->definition->getColumn($table, $name);
 
-        $record = $this->api->readRecord($table, $name, []);
-
-        foreach ($record as $key => $value) {
-            $values = $this->getDropDownValues($references[$key]);
-            $record[$key] = array('value' => $value, 'values' => $values);
+        foreach ($column as $key => $value) {
+            $column[$key] = array('value' => $value, 'values' => array());
+            switch ($key) {
+                case 'type':
+                    $column[$key]['values'] = $this->getDataTypes();
+                    break;
+                case 'nullable':
+                case 'pk':
+                    $column[$key]['values'] = $this->getBooleanValues();
+                    break;
+                case 'fk':
+                    $column[$key]['values'] = $this->getTableNames();
+                    break;
+            }
         }
 
         $variables = array(
             'table' => $table,
             'action' => $action,
-            'id' => $name,
-            'primaryKey' => $primaryKey,
-            'record' => $record,
+            'name' => $name,
+            'column' => $column,
         );
 
         return new TemplateDocument('layouts/default', 'column/update', $variables);
@@ -195,47 +195,14 @@ class ColumnService
 
     public function _list(string $table, string $action): TemplateDocument
     {
-        $columnFields = $this->getColumnFields();
-
-        $data = $this->api->readTable($table, array());
-        $this->fillAllSparse($data['columns'], $columnFields);
+        $data = $this->definition->getTable($table);
 
         $variables = array(
             'table' => $table,
             'action' => $action,
-            'columns' => $columnFields,
-            'records' => $data['columns'],
+            'columns' => $data['columns'],
         );
 
         return new TemplateDocument('layouts/default', 'column/list', $variables);
-    }
-
-    public function export(string $table, string $action): CsvDocument
-    {
-        $references = $this->definition->getReferences($table, $action);
-
-        $columns = $this->definition->getColumns($table, $action);
-
-        $args = array();
-        $args['join'] = array_values(array_filter($references));
-        $data = $this->api->listRecords($table, $args);
-
-        foreach ($data['records'] as $i => $record) {
-            foreach ($record as $key => $value) {
-                if ($references[$key]) {
-                    $value = $this->definition->referenceText($references[$key], $record[$key]);
-                    $data['records'][$i][$key] = $value;
-                }
-            }
-        }
-
-        $variables = array(
-            'table' => $table,
-            'action' => $action,
-            'columns' => $columns,
-            'records' => $data['records'],
-        );
-
-        return new CsvDocument($variables);
     }
 }

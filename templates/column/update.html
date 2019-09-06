@@ -1,7 +1,7 @@
-<h2>{{table}}: create</h2>
+<h2>{{table}}: update</h2>
 
 <form method="post">
-    {{for:value:key:record}}
+    {{for:value:key:column}}
         <div class="form-group">
             <label for="{{key}}">{{key}}</label>
             {{if:value.values}}
@@ -12,7 +12,7 @@
                     {{endfor}}
                 </select>
             {{else}}
-                <input class="form-control" id="{{key}}" name="{{key}}" value="{{value.value}}"{{if:key|eq(primaryKey)}} disabled{{endif}}/>
+                <input class="form-control" id="{{key}}" name="{{key}}" value="{{value.value}}"/>
             {{endif}}
         </div>
     {{endfor}}

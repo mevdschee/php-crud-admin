@@ -12,21 +12,21 @@
     <th>pk</th>
     <th>fk</th>
 </tr></thead><tbody>
-{{for:record:records}}
+{{for:column:columns}}
     <tr>
-        <td>{{record.name}}</td>
+        <td>{{column.name}}</td>
         <td style="border-right: 2px solid #ddd; width: 40px;">
-            <a class="btn btn-default btn-xs" href="{{base}}/{{table}}/read/{{record.name}}">+</a>
+            <a class="btn btn-default btn-xs" href="{{base}}/admin/{{table}}/read/{{column.name}}">+</a>
         </td>
-        <td>{{record.type}}</td>
-        <td>{{record.length|or("-")}}</td>
-        <td>{{record.precision|or("-")}}</td>
-        <td>{{record.scale|or("-")}}</td>
-        <td>{{record.nullable|bool("yes","-")}}</td>
-        <td>{{record.pk|bool("yes","-")}}</td>
-        <td>{{record.fk|or("-")}}</td>
+        <td>{{column.type}}</td>
+        <td>{{column.length|or("-")}}</td>
+        <td>{{column.precision|or("-")}}</td>
+        <td>{{column.scale|or("-")}}</td>
+        <td>{{column.nullable|bool("yes","-")}}</td>
+        <td>{{column.pk|bool("yes","-")}}</td>
+        <td>{{column.fk|or("-")}}</td>
     </tr>
 {{endfor}}
 </tbody></table>
 
-<p><a href="{{base}}/{{table}}/create" class="btn btn-primary">Add</a></p>
+<p><a href="{{base}}/admin/{{table}}/create" class="btn btn-primary">Add</a></p>

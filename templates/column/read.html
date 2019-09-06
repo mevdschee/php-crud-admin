@@ -8,7 +8,7 @@
         </td><td style="border-right: 2px solid #ddd; width: 40px;">
             &nbsp;
         </td><td>
-            {{record.name}}
+            {{column.name}}
         </td>
     </tr>
     <tr>
@@ -17,7 +17,7 @@
         </td><td style="border-right: 2px solid #ddd; width: 40px;">
             &nbsp;
         </td><td>
-            {{record.type}}
+            {{column.type}}
         </td>
     </tr>
     <tr>
@@ -26,7 +26,7 @@
         </td><td style="border-right: 2px solid #ddd; width: 40px;">
             &nbsp;
         </td><td>
-            {{record.length|or("-")}}
+            {{column.length|or("-")}}
         </td>
     </tr>
     <tr>
@@ -35,7 +35,7 @@
         </td><td style="border-right: 2px solid #ddd; width: 40px;">
             &nbsp;
         </td><td>
-            {{record.precision|or("-")}}
+            {{column.precision|or("-")}}
         </td>
     </tr>
     <tr>
@@ -44,7 +44,7 @@
         </td><td style="border-right: 2px solid #ddd; width: 40px;">
             &nbsp;
         </td><td>
-            {{record.scale|or("-")}}
+            {{column.scale|or("-")}}
         </td>
     </tr>
     <tr>
@@ -53,7 +53,7 @@
         </td><td style="border-right: 2px solid #ddd; width: 40px;">
             &nbsp;
         </td><td>
-            {{record.nullable|bool("yes","-")}}
+            {{column.nullable|bool("yes","-")}}
         </td>
     </tr>
     <tr>
@@ -62,26 +62,26 @@
         </td><td style="border-right: 2px solid #ddd; width: 40px;">
             &nbsp;
         </td><td>
-            {{record.pk|bool("yes","-")}}
+            {{column.pk|bool("yes","-")}}
         </td>
     </tr>
     <tr>
         <td>
             fk
         </td><td style="border-right: 2px solid #ddd; width: 40px;">
-            {{if:record.fk}}
-                <a class="btn btn-default btn-xs" href="{{base}}/{{record.fk}}/list"> + </a>
+            {{if:column.fk}}
+                <a class="btn btn-default btn-xs" href="{{base}}/{{column.fk}}/list"> + </a>
             {{else}}
                 &nbsp;
             {{endif}}
         </td><td>
-            {{record.fk}}
+            {{column.fk}}
         </td>
     </tr>
 {{endfor}}
 </tbody></table>
 
 <p>
-    <a class="btn btn-primary" href="{{base}}/{{table}}/update/{{id}}">Edit</a>
-    <a class="btn btn-danger" href="{{base}}/{{table}}/delete/{{id}}">Delete</a>
+    <a class="btn btn-primary" href="{{base}}/admin/{{table}}/update/{{name}}">Edit</a>
+    <a class="btn btn-danger" href="{{base}}/admin/{{table}}/delete/{{name}}">Delete</a>
 </p>

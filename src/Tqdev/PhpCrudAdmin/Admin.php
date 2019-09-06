@@ -10,7 +10,7 @@ use Tqdev\PhpCrudApi\Middleware\Router\SimpleRouter;
 use Tqdev\PhpCrudApi\Record\ErrorCode;
 use Tqdev\PhpCrudApi\ResponseUtils;
 use Tqdev\PhpCrudAdmin\Client\CrudApi;
-use Tqdev\PhpCrudAdmin\Column\SpecificationService;
+use Tqdev\PhpCrudAdmin\Column\DefinitionService;
 use Tqdev\PhpCrudAdmin\Controller\MultiResponder;
 use Tqdev\PhpCrudAdmin\Controller\ColumnController;
 use Tqdev\PhpCrudAdmin\Column\ColumnService;
@@ -26,11 +26,11 @@ class Admin implements RequestHandlerInterface
         $api = new CrudApi($config->getUrl());
         $prefix = sprintf('PhpCrudAdmin-%s-%s-', substr(md5($config->getUrl()), 0, 12), substr(md5(__FILE__), 0, 12));
         $cache = CacheFactory::create($config->getCacheType(), $prefix, $config->getCachePath());
-        $definition = new SpecificationService($api);
+        $definition = new DefinitionService($api);
         $responder = new MultiResponder($config->getTemplatePath());
         $router = new SimpleRouter($config->getBasePath(), $responder, $cache, $config->getCacheTime(), $config->getDebug());
         $responder->setVariable('base', $router->getBasePath());
-        $responder->setVariable('menu', $definition->getMenu());
+        $responder->setVariable('menu', $definition->getTableNames());
         $responder->setVariable('table', '');
         foreach ($config->getControllers() as $controller) {
             switch ($controller) {
