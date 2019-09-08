@@ -48,11 +48,11 @@ class ColumnController
         if (!$this->service->hasTable($table, $action)) {
             return $this->responder->error(ErrorCode::TABLE_NOT_FOUND, $table);
         }
-        $record = $request->getParsedBody();
-        if ($record === null) {
+        $column = $request->getParsedBody();
+        if ($column === null) {
             return $this->responder->error(ErrorCode::HTTP_MESSAGE_NOT_READABLE, '');
         }
-        $result = $this->service->create($table, $action, $record);
+        $result = $this->service->create($table, $action, $column);
         return $this->responder->success($result);
     }
 
@@ -88,11 +88,11 @@ class ColumnController
         if (!$this->service->hasTable($table, $action)) {
             return $this->responder->error(ErrorCode::TABLE_NOT_FOUND, $table);
         }
-        $record = $request->getParsedBody();
-        if ($record === null) {
+        $column = $request->getParsedBody();
+        if ($column === null) {
             return $this->responder->error(ErrorCode::HTTP_MESSAGE_NOT_READABLE, '');
         }
-        $result = $this->service->update($table, $action, $name, $record);
+        $result = $this->service->update($table, $action, $name, $column);
         return $this->responder->success($result);
     }
 

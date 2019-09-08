@@ -88,11 +88,11 @@ class ColumnService
         return new TemplateDocument('layouts/default', 'column/create', $variables);
     }
 
-    public function create(string $table, string $action, /* object */ $record): TemplateDocument
+    public function create(string $table, string $action, /* object */ $column): TemplateDocument
     {
         $primaryKey = $this->definition->getPrimaryKey($table, $action);
 
-        $name = $this->api->createRecord($table, $record);
+        $name = $this->api->createColumn($table, $column);
 
         $variables = array(
             'table' => $table,
@@ -134,18 +134,15 @@ class ColumnService
         return new TemplateDocument('layouts/default', 'column/update', $variables);
     }
 
-    public function update(string $table, string $action, string $name, /* object */ $record): TemplateDocument
+    public function update(string $table, string $action, string $name, /* object */ $column): TemplateDocument
     {
-        $primaryKey = $this->definition->getPrimaryKey($table, $action);
-
-        $affected = $this->api->updateRecord($table, $name, $record);
+        $success = $this->api->updateColumn($table, $name, $column);
 
         $variables = array(
             'table' => $table,
             'action' => $action,
-            'id' => $name,
-            'primaryKey' => $primaryKey,
-            'affected' => $affected,
+            'name' => $column['name'] ?: $name,
+            'success' => $success,
         );
 
         return new TemplateDocument('layouts/default', 'column/updated', $variables);
@@ -153,17 +150,14 @@ class ColumnService
 
     public function deleteForm(string $table, string $action, string $name): TemplateDocument
     {
-        $primaryKey = $this->definition->getPrimaryKey($table, 'read');
+        $column = $this->api->readRecord($table, $name, []);
 
-        $record = $this->api->readRecord($table, $name, []);
-
-        $name = $this->definition->referenceText($table, $record);
+        $name = $this->definition->referenceText($table, $column);
 
         $variables = array(
             'table' => $table,
             'action' => $action,
-            'id' => $name,
-            'primaryKey' => $primaryKey,
+            'name' => $name,
             'name' => $name,
         );
 

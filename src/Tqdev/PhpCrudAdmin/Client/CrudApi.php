@@ -26,6 +26,11 @@ class CrudApi
         return $this->call('GET', '/columns/' . rawurlencode($table) . '/' . rawurlencode($column), $args);
     }
 
+    public function updateColumn(string $table, string $column, array $data)
+    {
+        return $this->call('PUT', '/columns/' . rawurlencode($table) . '/' . rawurlencode($column), [], $data);
+    }
+
     private function call(string $method, string $path, array $args = [], $data = false)
     {
         $query = rtrim('?' . preg_replace('|%5B[0-9]+%5D|', '', http_build_query($args)), '?');
