@@ -1,0 +1,9 @@
+<h2>{{table}}: delete {{name}}</h2>
+
+<p>The action cannot be undone.</p>
+
+<form method="post">
+    <input type="hidden" name="name" value="{{name}}"/>
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a href="{{base}}/admin/columns/{{table}}/read/{{name}}" class="btn btn-default">Cancel</a>
+</form>

@@ -7,7 +7,7 @@ class Config
     private $values = [
         'url' => '',
         'definition' => '',
-        'controllers' => 'columns',
+        'controllers' => 'columns,tables',
         'cacheType' => 'TempFile',
         'cachePath' => '',
         'cacheTime' => 10,

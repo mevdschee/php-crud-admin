@@ -13,6 +13,7 @@ use Tqdev\PhpCrudAdmin\Client\CrudApi;
 use Tqdev\PhpCrudAdmin\Column\DefinitionService;
 use Tqdev\PhpCrudAdmin\Controller\MultiResponder;
 use Tqdev\PhpCrudAdmin\Controller\ColumnController;
+use Tqdev\PhpCrudAdmin\Controller\TableController;
 use Tqdev\PhpCrudAdmin\Column\ColumnService;
 
 class Admin implements RequestHandlerInterface
@@ -35,6 +36,10 @@ class Admin implements RequestHandlerInterface
         foreach ($config->getControllers() as $controller) {
             switch ($controller) {
                 case 'columns':
+                    $columns = new ColumnService($api, $definition);
+                    new ColumnController($router, $responder, $columns);
+                    break;
+                case 'tables':
                     $columns = new ColumnService($api, $definition);
                     new ColumnController($router, $responder, $columns);
                     break;
