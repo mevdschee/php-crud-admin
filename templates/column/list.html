@@ -16,7 +16,7 @@
     <tr>
         <td>{{column.name}}</td>
         <td style="border-right: 2px solid #ddd; width: 40px;">
-            <a class="btn btn-default btn-xs" href="{{base}}/admin/{{table}}/read/{{column.name}}">+</a>
+            <a class="btn btn-default btn-xs" href="{{base}}/admin/columns/{{table}}/read/{{column.name}}">+</a>
         </td>
         <td>{{column.type}}</td>
         <td>{{column.length|or("-")}}</td>
@@ -29,4 +29,4 @@
 {{endfor}}
 </tbody></table>
 
-<p><a href="{{base}}/admin/{{table}}/create" class="btn btn-primary">Add</a></p>
+<p><a href="{{base}}/admin/columns/{{table}}/create" class="btn btn-primary">Add</a></p>

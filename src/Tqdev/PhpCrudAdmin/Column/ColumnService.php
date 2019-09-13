@@ -120,10 +120,13 @@ class ColumnService
     {
         $column = $this->definition->getColumn($table, $name);
 
+        $form = $this->makeForm($column);
+
         $variables = array(
             'table' => $table,
             'action' => $action,
             'name' => $column['name'],
+            'form' => $form,
         );
 
         return new TemplateDocument('layouts/default', 'column/update', $variables);
