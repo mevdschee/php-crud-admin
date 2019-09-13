@@ -90,15 +90,13 @@ class ColumnService
 
     public function create(string $table, string $action, /* object */ $column): TemplateDocument
     {
-        $primaryKey = $this->definition->getPrimaryKey($table, $action);
-
-        $name = $this->api->createColumn($table, $column);
+        $success = $this->api->createColumn($table, $column);
 
         $variables = array(
             'table' => $table,
             'action' => $action,
-            'id' => $name,
-            'primaryKey' => $primaryKey,
+            'name' => $column['name'],
+            'success' => $success,
         );
 
         return new TemplateDocument('layouts/default', 'column/created', $variables);
@@ -122,13 +120,10 @@ class ColumnService
     {
         $column = $this->definition->getColumn($table, $name);
 
-        $form = $this->makeForm($column);
-
         $variables = array(
             'table' => $table,
             'action' => $action,
-            'name' => $name,
-            'form' => $form,
+            'name' => $column['name'],
         );
 
         return new TemplateDocument('layouts/default', 'column/update', $variables);
@@ -150,15 +145,12 @@ class ColumnService
 
     public function deleteForm(string $table, string $action, string $name): TemplateDocument
     {
-        $column = $this->api->readRecord($table, $name, []);
-
-        $name = $this->definition->referenceText($table, $column);
+        $column = $this->definition->getColumn($table, $name);
 
         $variables = array(
             'table' => $table,
             'action' => $action,
-            'name' => $name,
-            'name' => $name,
+            'name' => $column['name'],
         );
 
         return new TemplateDocument('layouts/default', 'column/delete', $variables);
@@ -166,16 +158,13 @@ class ColumnService
 
     public function delete(string $table, string $action, string $name): TemplateDocument
     {
-        $primaryKey = $this->definition->getPrimaryKey($table, 'read');
-
-        $affected = $this->api->deleteRecord($table, $name);
+        $success = $this->api->deleteColumn($table, $name);
 
         $variables = array(
             'table' => $table,
             'action' => $action,
-            'id' => $name,
-            'primaryKey' => $primaryKey,
-            'affected' => $affected,
+            'name' => $name,
+            'success' => $success,
         );
 
         return new TemplateDocument('layouts/default', 'column/deleted', $variables);
