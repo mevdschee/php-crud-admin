@@ -1,9 +1,9 @@
 <?php
 
-namespace Tqdev\PhpCrudAdmin\Table;
+namespace Tqdev\PhpCrudAdmin\Column;
 
 use Tqdev\PhpCrudAdmin\Client\CrudApi;
-use Tqdev\PhpCrudAdmin\Table\DefinitionService;
+use Tqdev\PhpCrudAdmin\Column\DefinitionService;
 use Tqdev\PhpCrudAdmin\Document\TemplateDocument;
 
 class TableService
@@ -22,10 +22,29 @@ class TableService
         return $this->definition->hasTable($action);
     }
 
+    private function makeForm(array $table): array
+    {
+        $form = array();
+        foreach ($table as $key => $value) {
+            $form[$key] = array('value' => $value, 'type' => 'text', 'required' => false);
+            switch ($key) {
+                case 'name':
+                    $form[$key]['required'] = true;
+                    break;
+            }
+        }
+        return $form;
+    }
+
     public function createForm(string $action): TemplateDocument
     {
+        $table = array('name' => '');
+
+        $form = $this->makeForm($table);
+
         $variables = array(
             'action' => $action,
+            'form' => $form,
         );
 
         return new TemplateDocument('layouts/default', 'table/create', $variables);
@@ -50,7 +69,7 @@ class TableService
 
         $variables = array(
             'action' => $action,
-            'name' => $table['name'],
+            'table' => $table['name'],
         );
 
         return new TemplateDocument('layouts/default', 'table/delete', $variables);
@@ -62,7 +81,7 @@ class TableService
 
         $variables = array(
             'action' => $action,
-            'name' => $name,
+            'table' => $name,
             'success' => $success,
         );
 

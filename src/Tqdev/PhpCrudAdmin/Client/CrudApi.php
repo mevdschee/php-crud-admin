@@ -41,6 +41,16 @@ class CrudApi
         return $this->call('DELETE', '/columns/' . rawurlencode($table) . '/' . rawurlencode($column), []);
     }
 
+    public function createTable(array $data)
+    {
+        return $this->call('POST', '/columns', [], $data);
+    }
+
+    public function deleteTable(string $table)
+    {
+        return $this->call('DELETE', '/columns/' . rawurlencode($table), []);
+    }
+
     private function call(string $method, string $path, array $args = [], $data = false)
     {
         $query = rtrim('?' . preg_replace('|%5B[0-9]+%5D|', '', http_build_query($args)), '?');

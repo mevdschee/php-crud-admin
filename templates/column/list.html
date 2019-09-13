@@ -3,7 +3,6 @@
 <table class="table">
 <thead><tr>
     <th>name</th>
-    <th></th>
     <th>type</th>
     <th>length</th>
     <th>precision</th>
@@ -14,19 +13,26 @@
 </tr></thead><tbody>
 {{for:column:columns}}
     <tr>
-        <td>{{column.name}}</td>
-        <td style="border-right: 2px solid #ddd; width: 40px;">
-            <a class="btn btn-default btn-xs" href="{{base}}/admin/columns/{{table}}/read/{{column.name}}">+</a>
-        </td>
+        <td><a href="{{base}}/admin/columns/{{table}}/read/{{column.name}}">{{column.name}}</a></td>
         <td>{{column.type}}</td>
         <td>{{column.length|or("-")}}</td>
         <td>{{column.precision|or("-")}}</td>
         <td>{{column.scale|or("-")}}</td>
         <td>{{column.nullable|bool("yes","-")}}</td>
         <td>{{column.pk|bool("yes","-")}}</td>
-        <td>{{column.fk|or("-")}}</td>
+        <td>
+            {{if:column.fk}}
+                <a href="{{base}}/admin/columns/{{column.fk}}/list">{{column.fk}}</a>
+            {{else}}
+                -
+            {{endif}}
+        </td>
     </tr>
 {{endfor}}
 </tbody></table>
 
-<p><a href="{{base}}/admin/columns/{{table}}/create" class="btn btn-primary">Add</a></p>
+
+<p>
+    <a class="btn btn-primary" href="{{base}}/admin/columns/{{table}}/create">Add column</a>
+    <a class="btn btn-danger" href="{{base}}/admin/tables/delete/{{table}}">Delete table</a>
+</p>

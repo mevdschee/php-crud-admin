@@ -1,32 +1,14 @@
-<h2>{{table}}: list</h2>
+<h2>list tables</h2>
 
 <table class="table">
 <thead><tr>
     <th>name</th>
-    <th></th>
-    <th>type</th>
-    <th>length</th>
-    <th>precision</th>
-    <th>scale</th>
-    <th>nullable</th>
-    <th>pk</th>
-    <th>fk</th>
 </tr></thead><tbody>
-{{for:column:columns}}
+{{for:table:tables}}
     <tr>
-        <td>{{column.name}}</td>
-        <td style="border-right: 2px solid #ddd; width: 40px;">
-            <a class="btn btn-default btn-xs" href="{{base}}/admin/columns/{{table}}/read/{{column.name}}">+</a>
-        </td>
-        <td>{{column.type}}</td>
-        <td>{{column.length|or("-")}}</td>
-        <td>{{column.precision|or("-")}}</td>
-        <td>{{column.scale|or("-")}}</td>
-        <td>{{column.nullable|bool("yes","-")}}</td>
-        <td>{{column.pk|bool("yes","-")}}</td>
-        <td>{{column.fk|or("-")}}</td>
+        <td><a href="{{base}}/admin/columns/{{table}}/list">{{table}}</a></td>
     </tr>
 {{endfor}}
 </tbody></table>
 
-<p><a href="{{base}}/admin/columns/{{table}}/create" class="btn btn-primary">Add</a></p>
+<p><a href="{{base}}/admin/tables/create" class="btn btn-primary">Add</a></p>

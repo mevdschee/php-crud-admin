@@ -29,7 +29,7 @@ class TableController
     public function createForm(ServerRequestInterface $request): ResponseInterface
     {
         $action = RequestUtils::getPathSegment($request, 3);
-        $result = $this->service->createTable($action);
+        $result = $this->service->createForm($action);
         return $this->responder->success($result);
     }
 
@@ -40,6 +40,7 @@ class TableController
         if ($table === null) {
             return $this->responder->error(ErrorCode::HTTP_MESSAGE_NOT_READABLE, '');
         }
+        $table['columns'] = [["name" => "id", "type" => "bigint", "pk" => true]];
         $result = $this->service->create($action, $table);
         return $this->responder->success($result);
     }
@@ -51,7 +52,7 @@ class TableController
         if (!$this->service->hasTable($name, 'read')) {
             return $this->responder->error(ErrorCode::TABLE_NOT_FOUND, $name);
         }
-        $result = $this->service->deleteTable($action, $name);
+        $result = $this->service->deleteForm($action, $name);
         return $this->responder->success($result);
     }
 

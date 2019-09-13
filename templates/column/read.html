@@ -1,12 +1,10 @@
 <h2>{{table}}: view</h2>
 <table class="table">
-<thead><tr><th>key</th><th></th><th>value</th></tr></thead>
+<thead><tr><th>key</th><th>value</th></tr></thead>
 <tbody>
     <tr>
         <td>
             name
-        </td><td style="border-right: 2px solid #ddd; width: 40px;">
-            &nbsp;
         </td><td>
             {{column.name}}
         </td>
@@ -14,8 +12,6 @@
     <tr>
         <td>
             type
-        </td><td style="border-right: 2px solid #ddd; width: 40px;">
-            &nbsp;
         </td><td>
             {{column.type}}
         </td>
@@ -23,8 +19,6 @@
     <tr>
         <td>
             length
-        </td><td style="border-right: 2px solid #ddd; width: 40px;">
-            &nbsp;
         </td><td>
             {{column.length|or("-")}}
         </td>
@@ -32,8 +26,6 @@
     <tr>
         <td>
             precision
-        </td><td style="border-right: 2px solid #ddd; width: 40px;">
-            &nbsp;
         </td><td>
             {{column.precision|or("-")}}
         </td>
@@ -41,8 +33,6 @@
     <tr>
         <td>
             scale
-        </td><td style="border-right: 2px solid #ddd; width: 40px;">
-            &nbsp;
         </td><td>
             {{column.scale|or("-")}}
         </td>
@@ -50,8 +40,6 @@
     <tr>
         <td>
             nullable
-        </td><td style="border-right: 2px solid #ddd; width: 40px;">
-            &nbsp;
         </td><td>
             {{column.nullable|bool("yes","-")}}
         </td>
@@ -59,8 +47,6 @@
     <tr>
         <td>
             pk
-        </td><td style="border-right: 2px solid #ddd; width: 40px;">
-            &nbsp;
         </td><td>
             {{column.pk|bool("yes","-")}}
         </td>
@@ -68,14 +54,12 @@
     <tr>
         <td>
             fk
-        </td><td style="border-right: 2px solid #ddd; width: 40px;">
-            {{if:column.fk}}
-                <a class="btn btn-default btn-xs" href="{{base}}/{{column.fk}}/list"> + </a>
-            {{else}}
-                &nbsp;
-            {{endif}}
         </td><td>
-            {{column.fk}}
+            {{if:column.fk}}
+                <a href="{{base}}/admin/columns/{{column.fk}}/list">{{column.fk}}</a>
+            {{else}}
+                -
+            {{endif}}
         </td>
     </tr>
 {{endfor}}
