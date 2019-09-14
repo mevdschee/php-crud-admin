@@ -9,8 +9,8 @@ class ComposerStaticInit2af5bdbdb357163e009d01ed7d4c1627
     public static $prefixLengthsPsr4 = array (
         'T' => 
         array (
-            'Tqdev\\PhpCrudAdmin\\' => 16,
             'Tqdev\\PhpCrudApi\\' => 17,
+            'Tqdev\\PhpCrudAdmin\\' => 19,
         ),
         'P' => 
         array (
@@ -29,13 +29,13 @@ class ComposerStaticInit2af5bdbdb357163e009d01ed7d4c1627
     );
 
     public static $prefixDirsPsr4 = array (
-        'Tqdev\\PhpCrudAdmin\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/src/Tqdev/PhpCrudAdmin',
-        ),
         'Tqdev\\PhpCrudApi\\' => 
         array (
             0 => __DIR__ . '/..' . '/mevdschee/php-crud-api/src/Tqdev/PhpCrudApi',
+        ),
+        'Tqdev\\PhpCrudAdmin\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/Tqdev/PhpCrudAdmin',
         ),
         'Psr\\Http\\Server\\' => 
         array (

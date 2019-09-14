@@ -16,6 +16,8 @@ use Tqdev\PhpCrudAdmin\Controller\ColumnController;
 use Tqdev\PhpCrudAdmin\Controller\TableController;
 use Tqdev\PhpCrudAdmin\Column\ColumnService;
 use Tqdev\PhpCrudAdmin\Column\TableService;
+use Tqdev\PhpCrudAdmin\Client\CurlCaller;
+use Tqdev\PhpCrudAdmin\Client\LocalCaller;
 
 class Admin implements RequestHandlerInterface
 {
@@ -25,7 +27,11 @@ class Admin implements RequestHandlerInterface
 
     public function __construct(Config $config)
     {
-        $api = new CrudApi($config->getUrl());
+        $caller = new LocalCaller($config->getApi());
+        if ($config->getUrl()) {
+            $caller = new CurlCaller($config->getUrl());
+        }
+        $api = new CrudApi($caller);
         $prefix = sprintf('PhpCrudAdmin-%s-%s-', substr(md5($config->getUrl()), 0, 12), substr(md5(__FILE__), 0, 12));
         $cache = CacheFactory::create($config->getCacheType(), $prefix, $config->getCachePath());
         $definition = new DefinitionService($api);

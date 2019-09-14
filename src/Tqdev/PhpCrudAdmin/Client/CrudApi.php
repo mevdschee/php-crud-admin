@@ -4,70 +4,50 @@ namespace Tqdev\PhpCrudAdmin\Client;
 
 class CrudApi
 {
-    private $url;
+    private $caller;
 
-    public function __construct(string $url)
+    public function __construct(ApiCaller $caller)
     {
-        $this->url = $url;
+        $this->caller = $caller;
     }
 
     public function readDatabase(array $args)
     {
-        return $this->call('GET', '/columns', $args);
+        return $this->caller->call('GET', '/columns', $args);
     }
 
     public function readTable(string $table, array $args)
     {
-        return $this->call('GET', '/columns/' . rawurlencode($table), $args);
+        return $this->caller->call('GET', '/columns/' . rawurlencode($table), $args);
     }
 
     public function readColumn(string $table, string $column, array $args)
     {
-        return $this->call('GET', '/columns/' . rawurlencode($table) . '/' . rawurlencode($column), $args);
+        return $this->caller->call('GET', '/columns/' . rawurlencode($table) . '/' . rawurlencode($column), $args);
     }
 
     public function updateColumn(string $table, string $column, array $data)
     {
-        return $this->call('PUT', '/columns/' . rawurlencode($table) . '/' . rawurlencode($column), [], $data);
+        return $this->caller->call('PUT', '/columns/' . rawurlencode($table) . '/' . rawurlencode($column), [], $data);
     }
 
     public function createColumn(string $table, array $data)
     {
-        return $this->call('POST', '/columns/' . rawurlencode($table), [], $data);
+        return $this->caller->call('POST', '/columns/' . rawurlencode($table), [], $data);
     }
 
     public function deleteColumn(string $table, string $column)
     {
-        return $this->call('DELETE', '/columns/' . rawurlencode($table) . '/' . rawurlencode($column), []);
+        return $this->caller->call('DELETE', '/columns/' . rawurlencode($table) . '/' . rawurlencode($column), []);
     }
 
     public function createTable(array $data)
     {
-        return $this->call('POST', '/columns', [], $data);
+        return $this->caller->call('POST', '/columns', [], $data);
     }
 
     public function deleteTable(string $table)
     {
-        return $this->call('DELETE', '/columns/' . rawurlencode($table), []);
-    }
-
-    private function call(string $method, string $path, array $args = [], $data = false)
-    {
-        $query = rtrim('?' . preg_replace('|%5B[0-9]+%5D|', '', http_build_query($args)), '?');
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
-        curl_setopt($ch, CURLOPT_URL, $this->url . $path . $query);
-        if ($data) {
-            $content = json_encode($data);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $content);
-            $headers = array();
-            $headers[] = 'Content-Type: application/json';
-            $headers[] = 'Content-Length: ' . strlen($content);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        }
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $response = curl_exec($ch);
-        curl_close($ch);
-        return json_decode($response, true);
+        return $this->caller->call('DELETE', '/columns/' . rawurlencode($table), []);
     }
 }
