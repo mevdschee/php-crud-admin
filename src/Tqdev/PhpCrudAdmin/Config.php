@@ -32,12 +32,12 @@ class Config
         return array_map('trim', explode(',', $this->values['controllers']));
     }
 
-    public function getUrl(): String
+    public function getUrl(): string
     {
         return $this->values['url'];
     }
 
-    public function getDefinition(): String
+    public function getDefinition(): string
     {
         return $this->values['definition'];
     }
