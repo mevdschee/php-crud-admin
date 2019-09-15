@@ -2,6 +2,8 @@
 
 A database admin interface for MySQL, PostgreSQL or SQL Server in a single file PHP script.
 
+![PHP-CRUD-ADMIN screenshot](screenshots/table.png)
+
 ## Requirements
 
   - PHP 7.0 or higher with PDO drivers for MySQL, PgSQL or SqlSrv enabled
