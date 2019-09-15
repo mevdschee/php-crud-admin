@@ -61,4 +61,4 @@ NB: The update script will also patch the dependencies in the vendor directory f
 
 This script is powered by [PHP-CRUD-API](https://github.com/mevdschee/php-crud-api) and embeds this project. Alternatively, it can run against a remote (live) installation.
 
-If you want to run this against a remote installation, then replace the 'api' config parameter with one called 'url' that holds the base URL of your PHP-CRUD-API installation.
+If you want to run this against a remote installation, then replace the 'api' config parameter with one called 'url' that holds the base URL of your [PHP-CRUD-API](https://github.com/mevdschee/php-crud-api) installation.
