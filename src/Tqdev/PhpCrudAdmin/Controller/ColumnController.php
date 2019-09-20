@@ -19,7 +19,6 @@ class ColumnController
     {
         $router->register('GET', '/admin/columns/*/create', array($this, 'createForm'));
         $router->register('POST', '/admin/columns/*/create', array($this, 'create'));
-        $router->register('GET', '/admin/columns/*/read/*', array($this, 'read'));
         $router->register('GET', '/admin/columns/*/update/*', array($this, 'updateForm'));
         $router->register('POST', '/admin/columns/*/update/*', array($this, 'update'));
         $router->register('GET', '/admin/columns/*/delete/*', array($this, 'deleteForm'));
@@ -52,18 +51,6 @@ class ColumnController
             return $this->responder->error(ErrorCode::HTTP_MESSAGE_NOT_READABLE, '');
         }
         $result = $this->service->create($table, $action, $column);
-        return $this->responder->success($result);
-    }
-
-    public function read(ServerRequestInterface $request): ResponseInterface
-    {
-        $table = RequestUtils::getPathSegment($request, 3);
-        $action = RequestUtils::getPathSegment($request, 4);
-        $name = RequestUtils::getPathSegment($request, 5);
-        if (!$this->service->hasTable($table, $action)) {
-            return $this->responder->error(ErrorCode::TABLE_NOT_FOUND, $table);
-        }
-        $result = $this->service->read($table, $action, $name);
         return $this->responder->success($result);
     }
 

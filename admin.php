@@ -68,7 +68,7 @@ $_HTML['column/delete'] = <<<'END_OF_HTML'
 <form method="post">
     <input type="hidden" name="name" value="{{name}}"/>
     <button type="submit" class="btn btn-danger">Delete</button>
-    <a href="{{base}}/admin/columns/{{table}}/read/{{name}}" class="btn btn-default">Cancel</a>
+    <a href="{{base}}/admin/columns/{{table}}/update/{{name}}" class="btn btn-default">Cancel</a>
 </form>
 END_OF_HTML;
 }
@@ -91,6 +91,7 @@ $_HTML['column/list'] = <<<'END_OF_HTML'
 
 <table class="table">
 <thead><tr>
+    <th></th>
     <th>name</th>
     <th>type</th>
     <th>length</th>
@@ -102,7 +103,8 @@ $_HTML['column/list'] = <<<'END_OF_HTML'
 </tr></thead><tbody>
 {{for:column:columns}}
     <tr>
-        <td><a href="{{base}}/admin/columns/{{table}}/read/{{column.name}}">{{column.name}}</a></td>
+        <td><a href="{{base}}/admin/columns/{{table}}/update/{{column.name}}">edit</a></td>
+        <td>{{column.name}}</td>
         <td>{{column.type}}</td>
         <td>{{column.length|or("-")}}</td>
         <td>{{column.precision|or("-")}}</td>
@@ -228,7 +230,11 @@ $_HTML['column/update'] = <<<'END_OF_HTML'
             </div>
         </div>
     {{endfor}}
-    <button type="submit" class="btn btn-primary">Save</button>
+    <p>
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a class="btn btn-danger" href="{{base}}/admin/columns/{{table}}/delete/{{name}}">Delete</a>
+    </p>
+    
 </form>
 
 END_OF_HTML;
@@ -11559,7 +11565,6 @@ namespace Tqdev\PhpCrudAdmin\Controller {
         {
             $router->register('GET', '/admin/columns/*/create', array($this, 'createForm'));
             $router->register('POST', '/admin/columns/*/create', array($this, 'create'));
-            $router->register('GET', '/admin/columns/*/read/*', array($this, 'read'));
             $router->register('GET', '/admin/columns/*/update/*', array($this, 'updateForm'));
             $router->register('POST', '/admin/columns/*/update/*', array($this, 'update'));
             $router->register('GET', '/admin/columns/*/delete/*', array($this, 'deleteForm'));
@@ -11592,18 +11597,6 @@ namespace Tqdev\PhpCrudAdmin\Controller {
                 return $this->responder->error(ErrorCode::HTTP_MESSAGE_NOT_READABLE, '');
             }
             $result = $this->service->create($table, $action, $column);
-            return $this->responder->success($result);
-        }
-
-        public function read(ServerRequestInterface $request): ResponseInterface
-        {
-            $table = RequestUtils::getPathSegment($request, 3);
-            $action = RequestUtils::getPathSegment($request, 4);
-            $name = RequestUtils::getPathSegment($request, 5);
-            if (!$this->service->hasTable($table, $action)) {
-                return $this->responder->error(ErrorCode::TABLE_NOT_FOUND, $table);
-            }
-            $result = $this->service->read($table, $action, $name);
             return $this->responder->success($result);
         }
 

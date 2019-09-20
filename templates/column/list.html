@@ -2,6 +2,7 @@
 
 <table class="table">
 <thead><tr>
+    <th></th>
     <th>name</th>
     <th>type</th>
     <th>length</th>
@@ -13,7 +14,8 @@
 </tr></thead><tbody>
 {{for:column:columns}}
     <tr>
-        <td><a href="{{base}}/admin/columns/{{table}}/read/{{column.name}}">{{column.name}}</a></td>
+        <td><a href="{{base}}/admin/columns/{{table}}/update/{{column.name}}">edit</a></td>
+        <td>{{column.name}}</td>
         <td>{{column.type}}</td>
         <td>{{column.length|or("-")}}</td>
         <td>{{column.precision|or("-")}}</td>
