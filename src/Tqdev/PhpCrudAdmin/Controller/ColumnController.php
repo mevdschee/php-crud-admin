@@ -17,13 +17,13 @@ class ColumnController
 
     public function __construct(Router $router, Responder $responder, ColumnService $service)
     {
-        $router->register('GET', '/admin/columns/*/create', array($this, 'createForm'));
-        $router->register('POST', '/admin/columns/*/create', array($this, 'create'));
-        $router->register('GET', '/admin/columns/*/update/*', array($this, 'updateForm'));
-        $router->register('POST', '/admin/columns/*/update/*', array($this, 'update'));
-        $router->register('GET', '/admin/columns/*/delete/*', array($this, 'deleteForm'));
-        $router->register('POST', '/admin/columns/*/delete/*', array($this, 'delete'));
-        $router->register('GET', '/admin/columns/*/list', array($this, '_list'));
+        $router->register('GET', '/admin/column/*/create', array($this, 'createForm'));
+        $router->register('POST', '/admin/column/*/create', array($this, 'create'));
+        $router->register('GET', '/admin/column/*/update/*', array($this, 'updateForm'));
+        $router->register('POST', '/admin/column/*/update/*', array($this, 'update'));
+        $router->register('GET', '/admin/column/*/delete/*', array($this, 'deleteForm'));
+        $router->register('POST', '/admin/column/*/delete/*', array($this, 'delete'));
+        $router->register('GET', '/admin/column/*/list', array($this, '_list'));
         $this->service = $service;
         $this->responder = $responder;
     }

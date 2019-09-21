@@ -52,7 +52,7 @@ $_HTML['column/created'] = <<<'END_OF_HTML'
 
 <p>Created {{name}}: {{success}}</p>
 
-<p><a href="{{base}}/admin/columns/{{table}}/list" class="btn btn-primary">Ok</a></p>
+<p><a href="{{base}}/admin/column/{{table}}/list" class="btn btn-primary">Ok</a></p>
 END_OF_HTML;
 }
 
@@ -68,7 +68,7 @@ $_HTML['column/delete'] = <<<'END_OF_HTML'
 <form method="post">
     <input type="hidden" name="name" value="{{name}}"/>
     <button type="submit" class="btn btn-danger">Delete</button>
-    <a href="{{base}}/admin/columns/{{table}}/update/{{name}}" class="btn btn-default">Cancel</a>
+    <a href="{{base}}/admin/column/{{table}}/update/{{name}}" class="btn btn-default">Cancel</a>
 </form>
 END_OF_HTML;
 }
@@ -80,7 +80,7 @@ $_HTML['column/deleted'] = <<<'END_OF_HTML'
 
 <p>Deleted {{name}}: {{success}}</p>
 
-<p><a href="{{base}}/admin/columns/{{table}}/list" class="btn btn-primary">Ok</a></p>
+<p><a href="{{base}}/admin/column/{{table}}/list" class="btn btn-primary">Ok</a></p>
 END_OF_HTML;
 }
 
@@ -103,7 +103,7 @@ $_HTML['column/list'] = <<<'END_OF_HTML'
 </tr></thead><tbody>
 {{for:column:columns}}
     <tr>
-        <td><a href="{{base}}/admin/columns/{{table}}/update/{{column.name}}">edit</a></td>
+        <td><a href="{{base}}/admin/column/{{table}}/update/{{column.name}}">edit</a></td>
         <td>{{column.name}}</td>
         <td>{{column.type}}</td>
         <td>{{column.length|or("-")}}</td>
@@ -113,7 +113,7 @@ $_HTML['column/list'] = <<<'END_OF_HTML'
         <td>{{column.pk|bool("yes","-")}}</td>
         <td>
             {{if:column.fk}}
-                <a href="{{base}}/admin/columns/{{column.fk}}/list">{{column.fk}}</a>
+                <a href="{{base}}/admin/column/{{column.fk}}/list">{{column.fk}}</a>
             {{else}}
                 -
             {{endif}}
@@ -123,8 +123,8 @@ $_HTML['column/list'] = <<<'END_OF_HTML'
 </tbody></table>
 
 <p>
-    <a class="btn btn-primary" href="{{base}}/admin/columns/{{table}}/create">Add column</a>
-    <a class="btn btn-danger" href="{{base}}/admin/tables/delete/{{table}}">Delete table</a>
+    <a class="btn btn-primary" href="{{base}}/admin/column/{{table}}/create">Add column</a>
+    <a class="btn btn-danger" href="{{base}}/admin/table/delete/{{table}}">Delete table</a>
 </p>
 END_OF_HTML;
 }
@@ -190,7 +190,7 @@ $_HTML['column/read'] = <<<'END_OF_HTML'
             fk
         </td><td>
             {{if:column.fk}}
-                <a href="{{base}}/admin/columns/{{column.fk}}/list">{{column.fk}}</a>
+                <a href="{{base}}/admin/column/{{column.fk}}/list">{{column.fk}}</a>
             {{else}}
                 -
             {{endif}}
@@ -200,8 +200,8 @@ $_HTML['column/read'] = <<<'END_OF_HTML'
 </tbody></table>
 
 <p>
-    <a class="btn btn-primary" href="{{base}}/admin/columns/{{table}}/update/{{name}}">Edit column</a>
-    <a class="btn btn-danger" href="{{base}}/admin/columns/{{table}}/delete/{{name}}">Delete column</a>
+    <a class="btn btn-primary" href="{{base}}/admin/column/{{table}}/update/{{name}}">Edit column</a>
+    <a class="btn btn-danger" href="{{base}}/admin/column/{{table}}/delete/{{name}}">Delete column</a>
 </p>
 
 END_OF_HTML;
@@ -232,7 +232,7 @@ $_HTML['column/update'] = <<<'END_OF_HTML'
     {{endfor}}
     <p>
         <button type="submit" class="btn btn-primary">Save</button>
-        <a class="btn btn-danger" href="{{base}}/admin/columns/{{table}}/delete/{{name}}">Delete</a>
+        <a class="btn btn-danger" href="{{base}}/admin/column/{{table}}/delete/{{name}}">Delete</a>
     </p>
     
 </form>
@@ -247,7 +247,7 @@ $_HTML['column/updated'] = <<<'END_OF_HTML'
 
 <p>Updated {{name}}: {{success}}</p>
 
-<p><a href="{{base}}/admin/columns/{{table}}/list" class="btn btn-primary">Ok</a></p>
+<p><a href="{{base}}/admin/column/{{table}}/list" class="btn btn-primary">Ok</a></p>
 END_OF_HTML;
 }
 
@@ -282,7 +282,7 @@ $_HTML['layouts/default'] = <<<'END_OF_HTML'
         <div class="container">
             <div class="row">
                 <div class="col-md-3">
-                    <h3><a href="{{base}}/admin/tables/list">PHP-CRUD-ADMIN</a></h3>
+                    <h3><a href="{{base}}/admin/table/list">PHP-CRUD-ADMIN</a></h3>
                 </div>
             </div>
             <div class="row">
@@ -290,7 +290,7 @@ $_HTML['layouts/default'] = <<<'END_OF_HTML'
                     <ul class="nav nav-pills nav-stacked">
                         {{for:item:menu}}
                             <li{{if:item|eq(table)}} class="active"{{endif}}>
-                                <a href="{{base}}/admin/columns/{{item}}/list">{{item}}</a>
+                                <a href="{{base}}/admin/column/{{item}}/list">{{item}}</a>
                             </li>
                         {{endfor}}
                     </ul>
@@ -320,7 +320,7 @@ $_HTML['layouts/error'] = <<<'END_OF_HTML'
         <div class="container">
             <div class="row">
                 <div class="col-md-3">
-                    <h3><a href="{{base}}/admin/tables/list">PHP-CRUD-ADMIN</a></h3>
+                    <h3><a href="{{base}}/admin/table/list">PHP-CRUD-ADMIN</a></h3>
                 </div>
             </div>
             <div class="row">
@@ -328,7 +328,7 @@ $_HTML['layouts/error'] = <<<'END_OF_HTML'
                     <ul class="nav nav-pills nav-stacked">
                         {{for:item:menu}}
                             <li{{if:item|eq(table)}} class="active"{{endif}}>
-                                <a href="{{base}}/admin/columns/{{item}}/list">{{item}}</a>
+                                <a href="{{base}}/admin/column/{{item}}/list">{{item}}</a>
                             </li>
                         {{endfor}}
                     </ul>
@@ -378,7 +378,7 @@ $_HTML['table/created'] = <<<'END_OF_HTML'
 
 <p>Created {{name}}: {{success}}</p>
 
-<p><a href="{{base}}/admin/tables/list" class="btn btn-primary">Ok</a></p>
+<p><a href="{{base}}/admin/table/list" class="btn btn-primary">Ok</a></p>
 END_OF_HTML;
 }
 
@@ -392,7 +392,7 @@ $_HTML['table/delete'] = <<<'END_OF_HTML'
 <form method="post">
     <input type="hidden" name="name" value="{{table}}"/>
     <button type="submit" class="btn btn-danger">Delete</button>
-    <a href="{{base}}/admin/columns/{{table}}/list" class="btn btn-default">Cancel</a>
+    <a href="{{base}}/admin/column/{{table}}/list" class="btn btn-default">Cancel</a>
 </form>
 END_OF_HTML;
 }
@@ -404,7 +404,7 @@ $_HTML['table/deleted'] = <<<'END_OF_HTML'
 
 <p>Deleted {{table}}: {{success}}</p>
 
-<p><a href="{{base}}/admin/tables/list" class="btn btn-primary">Ok</a></p>
+<p><a href="{{base}}/admin/table/list" class="btn btn-primary">Ok</a></p>
 END_OF_HTML;
 }
 
@@ -419,12 +419,12 @@ $_HTML['table/list'] = <<<'END_OF_HTML'
 </tr></thead><tbody>
 {{for:table:tables}}
     <tr>
-        <td><a href="{{base}}/admin/columns/{{table}}/list">{{table}}</a></td>
+        <td><a href="{{base}}/admin/column/{{table}}/list">{{table}}</a></td>
     </tr>
 {{endfor}}
 </tbody></table>
 
-<p><a href="{{base}}/admin/tables/create" class="btn btn-primary">Add table</a></p>
+<p><a href="{{base}}/admin/table/create" class="btn btn-primary">Add table</a></p>
 
 END_OF_HTML;
 }
@@ -4701,14 +4701,14 @@ namespace Tqdev\PhpCrudApi\Controller {
         public function __construct(Router $router, Responder $responder, ReflectionService $reflection, DefinitionService $definition)
         {
             $router->register('GET', '/columns', array($this, 'getDatabase'));
-            $router->register('GET', '/columns/*', array($this, 'getTable'));
-            $router->register('GET', '/columns/*/*', array($this, 'getColumn'));
-            $router->register('PUT', '/columns/*', array($this, 'updateTable'));
-            $router->register('PUT', '/columns/*/*', array($this, 'updateColumn'));
+            $router->register('GET', '/column/*', array($this, 'getTable'));
+            $router->register('GET', '/column/*/*', array($this, 'getColumn'));
+            $router->register('PUT', '/column/*', array($this, 'updateTable'));
+            $router->register('PUT', '/column/*/*', array($this, 'updateColumn'));
             $router->register('POST', '/columns', array($this, 'addTable'));
-            $router->register('POST', '/columns/*', array($this, 'addColumn'));
-            $router->register('DELETE', '/columns/*', array($this, 'removeTable'));
-            $router->register('DELETE', '/columns/*/*', array($this, 'removeColumn'));
+            $router->register('POST', '/column/*', array($this, 'addColumn'));
+            $router->register('DELETE', '/column/*', array($this, 'removeTable'));
+            $router->register('DELETE', '/column/*/*', array($this, 'removeColumn'));
             $this->responder = $responder;
             $this->reflection = $reflection;
             $this->definition = $definition;
@@ -8699,10 +8699,10 @@ namespace Tqdev\PhpCrudApi\OpenApi {
                             $path = '/columns';
                             break;
                         case 'table':
-                            $path = $operation == 'create' ? '/columns' : '/columns/{table}';
+                            $path = $operation == 'create' ? '/columns' : '/column/{table}';
                             break;
                         case 'column':
-                            $path = $operation == 'create' ? '/columns/{table}' : '/columns/{table}/{column}';
+                            $path = $operation == 'create' ? '/column/{table}' : '/column/{table}/{column}';
                             break;
                     }
                     if (strpos($path, '{table}')) {
@@ -11057,27 +11057,27 @@ namespace Tqdev\PhpCrudAdmin\Client {
 
         public function readTable(string $table, array $args)
         {
-            return $this->caller->call('GET', '/columns/' . rawurlencode($table), $args);
+            return $this->caller->call('GET', '/column/' . rawurlencode($table), $args);
         }
 
         public function readColumn(string $table, string $column, array $args)
         {
-            return $this->caller->call('GET', '/columns/' . rawurlencode($table) . '/' . rawurlencode($column), $args);
+            return $this->caller->call('GET', '/column/' . rawurlencode($table) . '/' . rawurlencode($column), $args);
         }
 
         public function updateColumn(string $table, string $column, array $data)
         {
-            return $this->caller->call('PUT', '/columns/' . rawurlencode($table) . '/' . rawurlencode($column), [], $data);
+            return $this->caller->call('PUT', '/column/' . rawurlencode($table) . '/' . rawurlencode($column), [], $data);
         }
 
         public function createColumn(string $table, array $data)
         {
-            return $this->caller->call('POST', '/columns/' . rawurlencode($table), [], $data);
+            return $this->caller->call('POST', '/column/' . rawurlencode($table), [], $data);
         }
 
         public function deleteColumn(string $table, string $column)
         {
-            return $this->caller->call('DELETE', '/columns/' . rawurlencode($table) . '/' . rawurlencode($column), []);
+            return $this->caller->call('DELETE', '/column/' . rawurlencode($table) . '/' . rawurlencode($column), []);
         }
 
         public function createTable(array $data)
@@ -11087,7 +11087,7 @@ namespace Tqdev\PhpCrudAdmin\Client {
 
         public function deleteTable(string $table)
         {
-            return $this->caller->call('DELETE', '/columns/' . rawurlencode($table), []);
+            return $this->caller->call('DELETE', '/column/' . rawurlencode($table), []);
         }
     }
 }
@@ -11563,13 +11563,13 @@ namespace Tqdev\PhpCrudAdmin\Controller {
 
         public function __construct(Router $router, Responder $responder, ColumnService $service)
         {
-            $router->register('GET', '/admin/columns/*/create', array($this, 'createForm'));
-            $router->register('POST', '/admin/columns/*/create', array($this, 'create'));
-            $router->register('GET', '/admin/columns/*/update/*', array($this, 'updateForm'));
-            $router->register('POST', '/admin/columns/*/update/*', array($this, 'update'));
-            $router->register('GET', '/admin/columns/*/delete/*', array($this, 'deleteForm'));
-            $router->register('POST', '/admin/columns/*/delete/*', array($this, 'delete'));
-            $router->register('GET', '/admin/columns/*/list', array($this, '_list'));
+            $router->register('GET', '/admin/column/*/create', array($this, 'createForm'));
+            $router->register('POST', '/admin/column/*/create', array($this, 'create'));
+            $router->register('GET', '/admin/column/*/update/*', array($this, 'updateForm'));
+            $router->register('POST', '/admin/column/*/update/*', array($this, 'update'));
+            $router->register('GET', '/admin/column/*/delete/*', array($this, 'deleteForm'));
+            $router->register('POST', '/admin/column/*/delete/*', array($this, 'delete'));
+            $router->register('GET', '/admin/column/*/list', array($this, '_list'));
             $this->service = $service;
             $this->responder = $responder;
         }
@@ -11736,11 +11736,11 @@ namespace Tqdev\PhpCrudAdmin\Controller {
 
         public function __construct(Router $router, Responder $responder, TableService $service)
         {
-            $router->register('GET', '/admin/tables/create', array($this, 'createForm'));
-            $router->register('POST', '/admin/tables/create', array($this, 'create'));
-            $router->register('GET', '/admin/tables/delete/*', array($this, 'deleteForm'));
-            $router->register('POST', '/admin/tables/delete/*', array($this, 'delete'));
-            $router->register('GET', '/admin/tables/list', array($this, '_list'));
+            $router->register('GET', '/admin/table/create', array($this, 'createForm'));
+            $router->register('POST', '/admin/table/create', array($this, 'create'));
+            $router->register('GET', '/admin/table/delete/*', array($this, 'deleteForm'));
+            $router->register('POST', '/admin/table/delete/*', array($this, 'delete'));
+            $router->register('GET', '/admin/table/list', array($this, '_list'));
             $this->service = $service;
             $this->responder = $responder;
         }

@@ -1,4 +1,9 @@
-<h2>{{table}}: delete column</h2>
+<ul class="breadcrumb">
+    <li><a href="{{base}}/admin/table/list">home</a></li>
+    <li><a href="{{base}}/admin/column/{{table}}/list">{{table}}</a></li>
+</ul>
+
+<h2>delete column</h2>
 
 <p>You are about to delete the column named "{{name}}"</p>
 
@@ -7,5 +12,5 @@
 <form method="post">
     <input type="hidden" name="name" value="{{name}}"/>
     <button type="submit" class="btn btn-danger">Delete</button>
-    <a href="{{base}}/admin/columns/{{table}}/update/{{name}}" class="btn btn-default">Cancel</a>
+    <a href="{{base}}/admin/column/{{table}}/update/{{name}}" class="btn btn-default">Cancel</a>
 </form>

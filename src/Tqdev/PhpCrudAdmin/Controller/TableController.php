@@ -17,11 +17,11 @@ class TableController
 
     public function __construct(Router $router, Responder $responder, TableService $service)
     {
-        $router->register('GET', '/admin/tables/create', array($this, 'createForm'));
-        $router->register('POST', '/admin/tables/create', array($this, 'create'));
-        $router->register('GET', '/admin/tables/delete/*', array($this, 'deleteForm'));
-        $router->register('POST', '/admin/tables/delete/*', array($this, 'delete'));
-        $router->register('GET', '/admin/tables/list', array($this, '_list'));
+        $router->register('GET', '/admin/table/create', array($this, 'createForm'));
+        $router->register('POST', '/admin/table/create', array($this, 'create'));
+        $router->register('GET', '/admin/table/delete/*', array($this, 'deleteForm'));
+        $router->register('POST', '/admin/table/delete/*', array($this, 'delete'));
+        $router->register('GET', '/admin/table/list', array($this, '_list'));
         $this->service = $service;
         $this->responder = $responder;
     }

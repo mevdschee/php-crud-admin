@@ -1,14 +1,19 @@
+<ul class="breadcrumb">
+    <li><a href="{{base}}/admin/table/list">home</a></li>
+</ul>
+
 <h2>list tables</h2>
 
-<table class="table">
-<thead><tr>
-    <th>name</th>
-</tr></thead><tbody>
+<table class="table"><thead>
+    <tr>
+        <th>name</th>
+    </tr>
+</thead><tbody>
 {{for:table:tables}}
     <tr>
-        <td><a href="{{base}}/admin/columns/{{table}}/list">{{table}}</a></td>
+        <td><a href="{{base}}/admin/column/{{table}}/list">{{table}}</a></td>
     </tr>
 {{endfor}}
 </tbody></table>
 
-<p><a href="{{base}}/admin/tables/create" class="btn btn-primary">Add table</a></p>
+<p><a href="{{base}}/admin/table/create" class="btn btn-primary">Add table</a></p>

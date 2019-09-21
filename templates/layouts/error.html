@@ -10,7 +10,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-3">
-                    <h3><a href="{{base}}/admin/tables/list">PHP-CRUD-ADMIN</a></h3>
+                    <h3><a href="{{base}}/admin/table/list">PHP-CRUD-ADMIN</a></h3>
                 </div>
             </div>
             <div class="row">
@@ -18,7 +18,7 @@
                     <ul class="nav nav-pills nav-stacked">
                         {{for:item:menu}}
                             <li{{if:item|eq(table)}} class="active"{{endif}}>
-                                <a href="{{base}}/admin/columns/{{item}}/list">{{item}}</a>
+                                <a href="{{base}}/admin/column/{{item}}/list">{{item}}</a>
                             </li>
                         {{endfor}}
                     </ul>

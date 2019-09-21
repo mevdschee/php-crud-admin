@@ -1,20 +1,26 @@
-<h2>{{table}}: list columns</h2>
+<ul class="breadcrumb">
+    <li><a href="{{base}}/admin/table/list">home</a></li>
+    <li><a href="{{base}}/admin/column/{{table}}/list">{{table}}</a></li>
+</ul>
 
-<table class="table">
-<thead><tr>
-    <th></th>
-    <th>name</th>
-    <th>type</th>
-    <th>length</th>
-    <th>precision</th>
-    <th>scale</th>
-    <th>nullable</th>
-    <th>pk</th>
-    <th>fk</th>
-</tr></thead><tbody>
+<h2>list columns</h2>
+
+<table class="table"><thead>
+    <tr>
+        <th></th>
+        <th>name</th>
+        <th>type</th>
+        <th>length</th>
+        <th>precision</th>
+        <th>scale</th>
+        <th>nullable</th>
+        <th>pk</th>
+        <th>fk</th>
+    </tr>
+</thead><tbody>
 {{for:column:columns}}
     <tr>
-        <td><a href="{{base}}/admin/columns/{{table}}/update/{{column.name}}">edit</a></td>
+        <td><a href="{{base}}/admin/column/{{table}}/update/{{column.name}}">edit</a></td>
         <td>{{column.name}}</td>
         <td>{{column.type}}</td>
         <td>{{column.length|or("-")}}</td>
@@ -24,7 +30,7 @@
         <td>{{column.pk|bool("yes","-")}}</td>
         <td>
             {{if:column.fk}}
-                <a href="{{base}}/admin/columns/{{column.fk}}/list">{{column.fk}}</a>
+                <a href="{{base}}/admin/column/{{column.fk}}/list">{{column.fk}}</a>
             {{else}}
                 -
             {{endif}}
@@ -33,8 +39,7 @@
 {{endfor}}
 </tbody></table>
 
-
 <p>
-    <a class="btn btn-primary" href="{{base}}/admin/columns/{{table}}/create">Add column</a>
-    <a class="btn btn-danger" href="{{base}}/admin/tables/delete/{{table}}">Delete table</a>
+    <a class="btn btn-primary" href="{{base}}/admin/column/{{table}}/create">Add column</a>
+    <a class="btn btn-danger" href="{{base}}/admin/table/delete/{{table}}">Delete table</a>
 </p>
