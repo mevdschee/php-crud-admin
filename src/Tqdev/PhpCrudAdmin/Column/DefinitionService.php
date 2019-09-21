@@ -89,6 +89,15 @@ class DefinitionService
 
     public function getTableNames()
     {
-        return array_keys($this->database['tables']);
+        return array_keys(array_filter($this->database['tables'], function ($table) {
+            return $table['type'] == 'table';
+        }));
+    }
+
+    public function getViewNames()
+    {
+        return array_keys(array_filter($this->database['tables'], function ($table) {
+            return $table['type'] == 'view';
+        }));
     }
 }

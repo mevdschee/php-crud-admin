@@ -102,20 +102,6 @@ class ColumnService
         return new TemplateDocument('layouts/default', 'column/created', $variables);
     }
 
-    public function read(string $table, string $action, string $name): TemplateDocument
-    {
-        $column = $this->definition->getColumn($table, $name);
-
-        $variables = array(
-            'table' => $table,
-            'action' => $action,
-            'name' => $name,
-            'column' => $column,
-        );
-
-        return new TemplateDocument('layouts/default', 'column/read', $variables);
-    }
-
     public function updateForm(string $table, string $action, string $name): TemplateDocument
     {
         $column = $this->definition->getColumn($table, $name);
