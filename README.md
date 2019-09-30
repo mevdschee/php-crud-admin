@@ -39,25 +39,33 @@ For more information check out the [PHP-CRUD-API](https://github.com/mevdschee/p
 
 ## Compilation
 
-You can compile all files into a single "`admin.php`" file using:
+You can install all dependencies of this project using the following command:
+
+    php install.php
+
+You can compile all files into a single "`ui.php`" file using:
 
     php build.php
 
+NB: The install script will patch the dependencies in the vendor directory for PHP 7.0 compatibility.
+
+### Development
+
 You can access the non-compiled code at the URL:
 
-    http://localhost:8080/src/
+    http://localhost:8080/src/editor/posts/list
 
 The non-compiled code resides in the "`src`" and "`vendor`" directories. The "`vendor`" directory contains the dependencies.
 
-## Updating dependencies
+### Updating dependencies
 
 You can update all dependencies of this project using the following command:
 
     php update.php
 
-This script will install and run Composer to update the dependencies.
+This script will install and run [Composer](https://getcomposer.org/) to update the dependencies.
 
-NB: The update script will also patch the dependencies in the vendor directory for PHP 7.0 compatibility.
+NB: The update script will patch the dependencies in the vendor directory for PHP 7.0 compatibility.
 
 ## Local or remote API
 
