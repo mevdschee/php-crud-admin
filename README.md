@@ -53,7 +53,7 @@ NB: The install script will patch the dependencies in the vendor directory for P
 
 You can access the non-compiled code at the URL:
 
-    http://localhost:8080/src/editor/posts/list
+    http://localhost:8080/src/admin/column/posts/list
 
 The non-compiled code resides in the "`src`" and "`vendor`" directories. The "`vendor`" directory contains the dependencies.
 
