@@ -1,5 +1,7 @@
 <?php
 
+// combine src and vendor directories into a single file
+
 function removeIgnored(string $dir, array &$entries, array $ignore)
 {
     foreach ($entries as $i => $entry) {
@@ -44,7 +46,7 @@ function runDir(string $base, string $dir, array &$lines, array $ignore): int
                 $count++;
             } elseif (substr($entry, -5) == '.html') {
                 $data = file_get_contents($filename);
-                $id = explode('.',explode('/',"$dir/$entry",2)[1],2)[0];
+                $id = explode('.', explode('/', "$dir/$entry", 2)[1], 2)[0];
                 array_push($lines, "// file: $dir/$entry");
                 array_push($lines, 'namespace {');
                 array_push($lines, "\$_HTML['$id'] = <<<'END_OF_HTML'");
@@ -64,9 +66,9 @@ function addHeader(array &$lines)
     $head = <<<'EOF'
 <?php
 /**
- * PHP-CRUD-UI v2               License: MIT
- * Maurits van der Schee: maurits@vdschee.nl
- * https://github.com/mevdschee/php-crud-ui
+ * PHP-CRUD-ADMIN v2              License: MIT
+ * Maurits van der Schee:   maurits@vdschee.nl
+ * https://github.com/mevdschee/php-crud-admin
  *
  * Dependencies:
  * - vendor/psr/*: PHP-FIG
