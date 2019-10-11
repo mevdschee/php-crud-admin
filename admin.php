@@ -1,8 +1,8 @@
 <?php
 /**
- * PHP-CRUD-UI v2               License: MIT
- * Maurits van der Schee: maurits@vdschee.nl
- * https://github.com/mevdschee/php-crud-ui
+ * PHP-CRUD-ADMIN v2              License: MIT
+ * Maurits van der Schee:   maurits@vdschee.nl
+ * https://github.com/mevdschee/php-crud-admin
  *
  * Dependencies:
  * - vendor/psr/*: PHP-FIG
@@ -19,7 +19,12 @@ namespace {
 // file: templates/column/create.html
 namespace {
 $_HTML['column/create'] = <<<'END_OF_HTML'
-<h2>{{table}}: create column</h2>
+<ul class="breadcrumb">
+    <li><a href="{{base}}/admin/table/list">home</a></li>
+    <li><a href="{{base}}/admin/column/{{table}}/list">{{table}}</a></li>
+</ul>
+
+<h2>create column</h2>
 
 <form class="form-horizontal" method="post">
     {{for:field:key:form}}
@@ -48,7 +53,12 @@ END_OF_HTML;
 // file: templates/column/created.html
 namespace {
 $_HTML['column/created'] = <<<'END_OF_HTML'
-<h2>{{table}}: create column</h2>
+<ul class="breadcrumb">
+    <li><a href="{{base}}/admin/table/list">home</a></li>
+    <li><a href="{{base}}/admin/column/{{table}}/list">{{table}}</a></li>
+</ul>
+
+<h2>create column</h2>
 
 <p>Created {{name}}: {{success}}</p>
 
@@ -59,7 +69,12 @@ END_OF_HTML;
 // file: templates/column/delete.html
 namespace {
 $_HTML['column/delete'] = <<<'END_OF_HTML'
-<h2>{{table}}: delete column</h2>
+<ul class="breadcrumb">
+    <li><a href="{{base}}/admin/table/list">home</a></li>
+    <li><a href="{{base}}/admin/column/{{table}}/list">{{table}}</a></li>
+</ul>
+
+<h2>delete column</h2>
 
 <p>You are about to delete the column named "{{name}}"</p>
 
@@ -76,7 +91,12 @@ END_OF_HTML;
 // file: templates/column/deleted.html
 namespace {
 $_HTML['column/deleted'] = <<<'END_OF_HTML'
-<h2>{{table}}: delete column</h2>
+<ul class="breadcrumb">
+    <li><a href="{{base}}/admin/table/list">home</a></li>
+    <li><a href="{{base}}/admin/column/{{table}}/list">{{table}}</a></li>
+</ul>
+
+<h2>delete column</h2>
 
 <p>Deleted {{name}}: {{success}}</p>
 
@@ -87,20 +107,26 @@ END_OF_HTML;
 // file: templates/column/list.html
 namespace {
 $_HTML['column/list'] = <<<'END_OF_HTML'
-<h2>{{table}}: list columns</h2>
+<ul class="breadcrumb">
+    <li><a href="{{base}}/admin/table/list">home</a></li>
+    <li><a href="{{base}}/admin/column/{{table}}/list">{{table}}</a></li>
+</ul>
 
-<table class="table">
-<thead><tr>
-    <th></th>
-    <th>name</th>
-    <th>type</th>
-    <th>length</th>
-    <th>precision</th>
-    <th>scale</th>
-    <th>nullable</th>
-    <th>pk</th>
-    <th>fk</th>
-</tr></thead><tbody>
+<h2>list columns</h2>
+
+<table class="table"><thead>
+    <tr>
+        <th></th>
+        <th>name</th>
+        <th>type</th>
+        <th>length</th>
+        <th>precision</th>
+        <th>scale</th>
+        <th>nullable</th>
+        <th>pk</th>
+        <th>fk</th>
+    </tr>
+</thead><tbody>
 {{for:column:columns}}
     <tr>
         <td><a href="{{base}}/admin/column/{{table}}/update/{{column.name}}">edit</a></td>
@@ -129,88 +155,15 @@ $_HTML['column/list'] = <<<'END_OF_HTML'
 END_OF_HTML;
 }
 
-// file: templates/column/read.html
-namespace {
-$_HTML['column/read'] = <<<'END_OF_HTML'
-<h2>{{table}}: view column</h2>
-<table class="table">
-<thead><tr><th>key</th><th>value</th></tr></thead>
-<tbody>
-    <tr>
-        <td>
-            name
-        </td><td>
-            {{column.name}}
-        </td>
-    </tr>
-    <tr>
-        <td>
-            type
-        </td><td>
-            {{column.type}}
-        </td>
-    </tr>
-    <tr>
-        <td>
-            length
-        </td><td>
-            {{column.length|or("-")}}
-        </td>
-    </tr>
-    <tr>
-        <td>
-            precision
-        </td><td>
-            {{column.precision|or("-")}}
-        </td>
-    </tr>
-    <tr>
-        <td>
-            scale
-        </td><td>
-            {{column.scale|or("-")}}
-        </td>
-    </tr>
-    <tr>
-        <td>
-            nullable
-        </td><td>
-            {{column.nullable|bool("yes","-")}}
-        </td>
-    </tr>
-    <tr>
-        <td>
-            pk
-        </td><td>
-            {{column.pk|bool("yes","-")}}
-        </td>
-    </tr>
-    <tr>
-        <td>
-            fk
-        </td><td>
-            {{if:column.fk}}
-                <a href="{{base}}/admin/column/{{column.fk}}/list">{{column.fk}}</a>
-            {{else}}
-                -
-            {{endif}}
-        </td>
-    </tr>
-{{endfor}}
-</tbody></table>
-
-<p>
-    <a class="btn btn-primary" href="{{base}}/admin/column/{{table}}/update/{{name}}">Edit column</a>
-    <a class="btn btn-danger" href="{{base}}/admin/column/{{table}}/delete/{{name}}">Delete column</a>
-</p>
-
-END_OF_HTML;
-}
-
 // file: templates/column/update.html
 namespace {
 $_HTML['column/update'] = <<<'END_OF_HTML'
-<h2>{{table}}: update column</h2>
+<ul class="breadcrumb">
+    <li><a href="{{base}}/admin/table/list">home</a></li>
+    <li><a href="{{base}}/admin/column/{{table}}/list">{{table}}</a></li>
+</ul>
+
+<h2>update column</h2>
 
 <form class="form-horizontal" method="post">
     {{for:field:key:form}}
@@ -243,7 +196,12 @@ END_OF_HTML;
 // file: templates/column/updated.html
 namespace {
 $_HTML['column/updated'] = <<<'END_OF_HTML'
-<h2>{{table}}: update column</h2>
+<ul class="breadcrumb">
+    <li><a href="{{base}}/admin/table/list">home</a></li>
+    <li><a href="{{base}}/admin/column/{{table}}/list">{{table}}</a></li>
+</ul>
+    
+<h2>update column</h2>
 
 <p>Updated {{name}}: {{success}}</p>
 
@@ -254,7 +212,11 @@ END_OF_HTML;
 // file: templates/error/show.html
 namespace {
 $_HTML['error/show'] = <<<'END_OF_HTML'
-<h2>Error</h2>
+<ul class="breadcrumb">
+    <li><a href="{{base}}/admin/table/list">home</a></li>
+</ul>
+
+<h2>error</h2>
 
 <strong>code:</strong><br/>
 <p>{{code}}</p>
@@ -280,11 +242,13 @@ $_HTML['layouts/default'] = <<<'END_OF_HTML'
     </head>
     <body>
         <div class="container">
-            <div class="row">
-                <div class="col-md-3">
-                    <h3><a href="{{base}}/admin/table/list">PHP-CRUD-ADMIN</a></h3>
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="{{base}}/admin/table/list">PHP-CRUD-ADMIN</a>
+                    </div>
                 </div>
-            </div>
+            </nav>
             <div class="row">
                 <div class="col-md-3">
                     <ul class="nav nav-pills nav-stacked">
@@ -318,11 +282,13 @@ $_HTML['layouts/error'] = <<<'END_OF_HTML'
     </head>
     <body>
         <div class="container">
-            <div class="row">
-                <div class="col-md-3">
-                    <h3><a href="{{base}}/admin/table/list">PHP-CRUD-ADMIN</a></h3>
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <a class="navbar-brand" href="{{base}}/admin/table/list">PHP-CRUD-ADMIN</a>
+                    </div>
                 </div>
-            </div>
+            </nav>
             <div class="row">
                 <div class="col-md-3">
                     <ul class="nav nav-pills nav-stacked">
@@ -346,6 +312,10 @@ END_OF_HTML;
 // file: templates/table/create.html
 namespace {
 $_HTML['table/create'] = <<<'END_OF_HTML'
+<ul class="breadcrumb">
+    <li><a href="{{base}}/admin/table/list">home</a></li>
+</ul>
+
 <h2>create table</h2>
 
 <form class="form-horizontal" method="post">
@@ -374,6 +344,10 @@ END_OF_HTML;
 // file: templates/table/created.html
 namespace {
 $_HTML['table/created'] = <<<'END_OF_HTML'
+<ul class="breadcrumb">
+    <li><a href="{{base}}/admin/table/list">home</a></li>
+</ul>
+
 <h2>create table</h2>
 
 <p>Created {{name}}: {{success}}</p>
@@ -385,7 +359,12 @@ END_OF_HTML;
 // file: templates/table/delete.html
 namespace {
 $_HTML['table/delete'] = <<<'END_OF_HTML'
-<h2>{{table}}: delete table</h2>
+<ul class="breadcrumb">
+    <li><a href="{{base}}/admin/table/list">home</a></li>
+    <li><a href="{{base}}/admin/column/{{table}}/list">{{table}}</a></li>
+</ul>
+
+<h2>delete table</h2>
 
 <p>The action cannot be undone.</p>
 
@@ -400,7 +379,12 @@ END_OF_HTML;
 // file: templates/table/deleted.html
 namespace {
 $_HTML['table/deleted'] = <<<'END_OF_HTML'
-<h2>{{table}}: delete table</h2>
+<ul class="breadcrumb">
+    <li><a href="{{base}}/admin/table/list">home</a></li>
+    <li><a href="{{base}}/admin/column/{{table}}/list">{{table}}</a></li>
+</ul>
+
+<h2>delete table</h2>
 
 <p>Deleted {{table}}: {{success}}</p>
 
@@ -411,12 +395,17 @@ END_OF_HTML;
 // file: templates/table/list.html
 namespace {
 $_HTML['table/list'] = <<<'END_OF_HTML'
+<ul class="breadcrumb">
+    <li><a href="{{base}}/admin/table/list">home</a></li>
+</ul>
+
 <h2>list tables</h2>
 
-<table class="table">
-<thead><tr>
-    <th>name</th>
-</tr></thead><tbody>
+<table class="table"><thead>
+    <tr>
+        <th>name</th>
+    </tr>
+</thead><tbody>
 {{for:table:tables}}
     <tr>
         <td><a href="{{base}}/admin/column/{{table}}/list">{{table}}</a></td>
@@ -2103,7 +2092,7 @@ namespace Nyholm\Psr7 {
             return $new;
         }
 
-        private function setHeaders(array $headers): void
+        private function setHeaders(array $headers) /*:void*/
         {
             foreach ($headers as $header => $value) {
                 $value = $this->validateAndTrimHeader($header, $value);
@@ -2303,7 +2292,7 @@ namespace Nyholm\Psr7 {
             return $new;
         }
 
-        private function updateHostFromUri(): void
+        private function updateHostFromUri() /*:void*/
         {
             if ('' === $host = $this->uri->getHost()) {
                 return;
@@ -2341,7 +2330,7 @@ namespace Nyholm\Psr7 {
         use MessageTrait;
 
         /** @var array Map of standard HTTP status code/reason phrases */
-        private const PHRASES = [
+        /*private*/ const PHRASES = [
             100 => 'Continue', 101 => 'Switching Protocols', 102 => 'Processing',
             200 => 'OK', 201 => 'Created', 202 => 'Accepted', 203 => 'Non-Authoritative Information', 204 => 'No Content', 205 => 'Reset Content', 206 => 'Partial Content', 207 => 'Multi-status', 208 => 'Already Reported',
             300 => 'Multiple Choices', 301 => 'Moved Permanently', 302 => 'Found', 303 => 'See Other', 304 => 'Not Modified', 305 => 'Use Proxy', 306 => 'Switch Proxy', 307 => 'Temporary Redirect',
@@ -2605,7 +2594,7 @@ namespace Nyholm\Psr7 {
         private $size;
 
         /** @var array Hash of readable and writable stream types */
-        private const READ_WRITE_HASH = [
+        /*private*/ const READ_WRITE_HASH = [
             'read' => [
                 'r' => true, 'w+' => true, 'r+' => true, 'x+' => true, 'c+' => true,
                 'rb' => true, 'w+b' => true, 'r+b' => true, 'x+b' => true,
@@ -2681,7 +2670,7 @@ namespace Nyholm\Psr7 {
             }
         }
 
-        public function close(): void
+        public function close() /*:void*/
         {
             if (isset($this->stream)) {
                 if (\is_resource($this->stream)) {
@@ -2705,7 +2694,7 @@ namespace Nyholm\Psr7 {
             return $result;
         }
 
-        public function getSize(): ?int
+        public function getSize() /*:?int*/
         {
             if (null !== $this->size) {
                 return $this->size;
@@ -2749,7 +2738,7 @@ namespace Nyholm\Psr7 {
             return $this->seekable;
         }
 
-        public function seek($offset, $whence = \SEEK_SET): void
+        public function seek($offset, $whence = \SEEK_SET) /*:void*/
         {
             if (!$this->seekable) {
                 throw new \RuntimeException('Stream is not seekable');
@@ -2760,7 +2749,7 @@ namespace Nyholm\Psr7 {
             }
         }
 
-        public function rewind(): void
+        public function rewind() /*:void*/
         {
             $this->seek(0);
         }
@@ -2843,7 +2832,7 @@ namespace Nyholm\Psr7 {
     final class UploadedFile implements UploadedFileInterface
     {
         /** @var array */
-        private const ERRORS = [
+        /*private*/ const ERRORS = [
             \UPLOAD_ERR_OK => 1,
             \UPLOAD_ERR_INI_SIZE => 1,
             \UPLOAD_ERR_FORM_SIZE => 1,
@@ -2922,7 +2911,7 @@ namespace Nyholm\Psr7 {
         /**
          * @throws \RuntimeException if is moved or not ok
          */
-        private function validateActive(): void
+        private function validateActive() /*:void*/
         {
             if (\UPLOAD_ERR_OK !== $this->error) {
                 throw new \RuntimeException('Cannot retrieve stream due to upload error');
@@ -2946,7 +2935,7 @@ namespace Nyholm\Psr7 {
             return Stream::create($resource);
         }
 
-        public function moveTo($targetPath): void
+        public function moveTo($targetPath) /*:void*/
         {
             $this->validateActive();
 
@@ -2988,12 +2977,12 @@ namespace Nyholm\Psr7 {
             return $this->error;
         }
 
-        public function getClientFilename(): ?string
+        public function getClientFilename() /*:?string*/
         {
             return $this->clientFilename;
         }
 
-        public function getClientMediaType(): ?string
+        public function getClientMediaType() /*:?string*/
         {
             return $this->clientMediaType;
         }
@@ -3016,11 +3005,11 @@ namespace Nyholm\Psr7 {
      */
     final class Uri implements UriInterface
     {
-        private const SCHEMES = ['http' => 80, 'https' => 443];
+        /*private*/ const SCHEMES = ['http' => 80, 'https' => 443];
 
-        private const CHAR_UNRESERVED = 'a-zA-Z0-9_\-\.~';
+        /*private*/ const CHAR_UNRESERVED = 'a-zA-Z0-9_\-\.~';
 
-        private const CHAR_SUB_DELIMS = '!\$&\'\(\)\*\+,;=';
+        /*private*/ const CHAR_SUB_DELIMS = '!\$&\'\(\)\*\+,;=';
 
         /** @var string Uri scheme. */
         private $scheme = '';
@@ -3102,7 +3091,7 @@ namespace Nyholm\Psr7 {
             return $this->host;
         }
 
-        public function getPort(): ?int
+        public function getPort() /*:?int*/
         {
             return $this->port;
         }
@@ -3270,7 +3259,7 @@ namespace Nyholm\Psr7 {
             return !isset(self::SCHEMES[$scheme]) || $port !== self::SCHEMES[$scheme];
         }
 
-        private function filterPort($port): ?int
+        private function filterPort($port) /*:?int*/
         {
             if (null === $port) {
                 return null;
@@ -4701,14 +4690,14 @@ namespace Tqdev\PhpCrudApi\Controller {
         public function __construct(Router $router, Responder $responder, ReflectionService $reflection, DefinitionService $definition)
         {
             $router->register('GET', '/columns', array($this, 'getDatabase'));
-            $router->register('GET', '/column/*', array($this, 'getTable'));
-            $router->register('GET', '/column/*/*', array($this, 'getColumn'));
-            $router->register('PUT', '/column/*', array($this, 'updateTable'));
-            $router->register('PUT', '/column/*/*', array($this, 'updateColumn'));
+            $router->register('GET', '/columns/*', array($this, 'getTable'));
+            $router->register('GET', '/columns/*/*', array($this, 'getColumn'));
+            $router->register('PUT', '/columns/*', array($this, 'updateTable'));
+            $router->register('PUT', '/columns/*/*', array($this, 'updateColumn'));
             $router->register('POST', '/columns', array($this, 'addTable'));
-            $router->register('POST', '/column/*', array($this, 'addColumn'));
-            $router->register('DELETE', '/column/*', array($this, 'removeTable'));
-            $router->register('DELETE', '/column/*/*', array($this, 'removeColumn'));
+            $router->register('POST', '/columns/*', array($this, 'addColumn'));
+            $router->register('DELETE', '/columns/*', array($this, 'removeTable'));
+            $router->register('DELETE', '/columns/*/*', array($this, 'removeColumn'));
             $this->responder = $responder;
             $this->reflection = $reflection;
             $this->definition = $definition;
@@ -4858,7 +4847,6 @@ namespace Tqdev\PhpCrudApi\Controller {
     {
         private $service;
         private $responder;
-        private $geoJsonConverter;
 
         public function __construct(Router $router, Responder $responder, GeoJsonService $service)
         {
@@ -8699,10 +8687,10 @@ namespace Tqdev\PhpCrudApi\OpenApi {
                             $path = '/columns';
                             break;
                         case 'table':
-                            $path = $operation == 'create' ? '/columns' : '/column/{table}';
+                            $path = $operation == 'create' ? '/columns' : '/columns/{table}';
                             break;
                         case 'column':
-                            $path = $operation == 'create' ? '/column/{table}' : '/column/{table}/{column}';
+                            $path = $operation == 'create' ? '/columns/{table}' : '/columns/{table}/{column}';
                             break;
                     }
                     if (strpos($path, '{table}')) {
@@ -10554,7 +10542,7 @@ namespace Tqdev\PhpCrudApi {
         {
             $parsedBody = $request->getParsedBody();
             if ($parsedBody) {
-                $request = $this->applySlim3Hack($request);
+                $request = $this->applySlimHack($request);
             } else {
                 $body = $request->getBody();
                 if ($body->isReadable() && $body->isSeekable()) {
@@ -10569,9 +10557,10 @@ namespace Tqdev\PhpCrudApi {
             return $request;
         }
 
-        private function applySlim3Hack(ServerRequestInterface $request): ServerRequestInterface
+        private function applySlimHack(ServerRequestInterface $request): ServerRequestInterface
         {
-            if (get_class($request) == 'Slim\Http\Request') {
+            $class = get_class($request);
+            if (in_array($class, ['Slim\Http\Request', 'Slim\Http\Request'])) {
                 $parsedBody = $request->getParsedBody();
                 $contents = json_encode($parsedBody);
                 $parsedBody = $this->parseBody($contents);
@@ -11057,27 +11046,27 @@ namespace Tqdev\PhpCrudAdmin\Client {
 
         public function readTable(string $table, array $args)
         {
-            return $this->caller->call('GET', '/column/' . rawurlencode($table), $args);
+            return $this->caller->call('GET', '/columns/' . rawurlencode($table), $args);
         }
 
         public function readColumn(string $table, string $column, array $args)
         {
-            return $this->caller->call('GET', '/column/' . rawurlencode($table) . '/' . rawurlencode($column), $args);
+            return $this->caller->call('GET', '/columns/' . rawurlencode($table) . '/' . rawurlencode($column), $args);
         }
 
         public function updateColumn(string $table, string $column, array $data)
         {
-            return $this->caller->call('PUT', '/column/' . rawurlencode($table) . '/' . rawurlencode($column), [], $data);
+            return $this->caller->call('PUT', '/columns/' . rawurlencode($table) . '/' . rawurlencode($column), [], $data);
         }
 
         public function createColumn(string $table, array $data)
         {
-            return $this->caller->call('POST', '/column/' . rawurlencode($table), [], $data);
+            return $this->caller->call('POST', '/columns/' . rawurlencode($table), [], $data);
         }
 
         public function deleteColumn(string $table, string $column)
         {
-            return $this->caller->call('DELETE', '/column/' . rawurlencode($table) . '/' . rawurlencode($column), []);
+            return $this->caller->call('DELETE', '/columns/' . rawurlencode($table) . '/' . rawurlencode($column), []);
         }
 
         public function createTable(array $data)
@@ -11087,7 +11076,7 @@ namespace Tqdev\PhpCrudAdmin\Client {
 
         public function deleteTable(string $table)
         {
-            return $this->caller->call('DELETE', '/column/' . rawurlencode($table), []);
+            return $this->caller->call('DELETE', '/columns/' . rawurlencode($table), []);
         }
     }
 }
@@ -11261,20 +11250,6 @@ namespace Tqdev\PhpCrudAdmin\Column {
             return new TemplateDocument('layouts/default', 'column/created', $variables);
         }
 
-        public function read(string $table, string $action, string $name): TemplateDocument
-        {
-            $column = $this->definition->getColumn($table, $name);
-
-            $variables = array(
-                'table' => $table,
-                'action' => $action,
-                'name' => $name,
-                'column' => $column,
-            );
-
-            return new TemplateDocument('layouts/default', 'column/read', $variables);
-        }
-
         public function updateForm(string $table, string $action, string $name): TemplateDocument
         {
             $column = $this->definition->getColumn($table, $name);
@@ -11437,7 +11412,16 @@ namespace Tqdev\PhpCrudAdmin\Column {
 
         public function getTableNames()
         {
-            return array_keys($this->database['tables']);
+            return array_keys(array_filter($this->database['tables'], function ($table) {
+                return $table['type'] == 'table';
+            }));
+        }
+
+        public function getViewNames()
+        {
+            return array_keys(array_filter($this->database['tables'], function ($table) {
+                return $table['type'] == 'view';
+            }));
         }
     }
 }
