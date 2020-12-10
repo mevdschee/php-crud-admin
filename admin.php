@@ -12411,17 +12411,17 @@ namespace Tqdev\PhpCrudAdmin {
 // file: src/index.php
 namespace Tqdev\PhpCrudAdmin {
 
+    use Tqdev\PhpCrudAdmin\Admin;
+    use Tqdev\PhpCrudAdmin\Config;
     use Tqdev\PhpCrudApi\RequestFactory;
     use Tqdev\PhpCrudApi\ResponseUtils;
-    use Tqdev\PhpCrudAdmin\Config;
-    use Tqdev\PhpCrudAdmin\Admin;
 
     $config = new Config([
         'api' => [
             'username' => 'php-crud-api',
             'password' => 'php-crud-api',
             'database' => 'php-crud-api',
-            'controllers' => 'columns'
+            'controllers' => 'columns',
         ],
         'templatePath' => '../templates',
     ]);

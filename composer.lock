@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "mevdschee/php-crud-api",
-            "version": "v2.5.4",
+            "version": "v2.9.31",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mevdschee/php-crud-api.git",
-                "reference": "c298c4681df4233ecd81058e28ca55a2d65c8774"
+                "reference": "aa5e4d5cd619d5c13a37ac7412ac7ac8551af33d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mevdschee/php-crud-api/zipball/c298c4681df4233ecd81058e28ca55a2d65c8774",
-                "reference": "c298c4681df4233ecd81058e28ca55a2d65c8774",
+                "url": "https://api.github.com/repos/mevdschee/php-crud-api/zipball/aa5e4d5cd619d5c13a37ac7412ac7ac8551af33d",
+                "reference": "aa5e4d5cd619d5c13a37ac7412ac7ac8551af33d",
                 "shasum": ""
             },
             "require": {
@@ -76,24 +76,28 @@
                 "swagger",
                 "ubuntu-linux"
             ],
-            "time": "2019-09-29T18:36:19+00:00"
+            "support": {
+                "issues": "https://github.com/mevdschee/php-crud-api/issues",
+                "source": "https://github.com/mevdschee/php-crud-api/tree/v2.9.31"
+            },
+            "time": "2020-11-28T20:40:03+00:00"
         },
         {
             "name": "nyholm/psr7",
-            "version": "1.2.1",
+            "version": "1.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Nyholm/psr7.git",
-                "reference": "55ff6b76573f5b242554c9775792bd59fb52e11c"
+                "reference": "a272953743c454ac4af9626634daaf5ab3ce1173"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Nyholm/psr7/zipball/55ff6b76573f5b242554c9775792bd59fb52e11c",
-                "reference": "55ff6b76573f5b242554c9775792bd59fb52e11c",
+                "url": "https://api.github.com/repos/Nyholm/psr7/zipball/a272953743c454ac4af9626634daaf5ab3ce1173",
+                "reference": "a272953743c454ac4af9626634daaf5ab3ce1173",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1",
+                "php": ">=7.1",
                 "php-http/message-factory": "^1.0",
                 "psr/http-factory": "^1.0",
                 "psr/http-message": "^1.0"
@@ -103,9 +107,10 @@
                 "psr/http-message-implementation": "1.0"
             },
             "require-dev": {
-                "http-interop/http-factory-tests": "dev-master",
-                "php-http/psr7-integration-tests": "dev-master",
-                "phpunit/phpunit": "^7.5"
+                "http-interop/http-factory-tests": "^0.8",
+                "php-http/psr7-integration-tests": "^1.0",
+                "phpunit/phpunit": "^7.5 || 8.5 || 9.4",
+                "symfony/error-handler": "^4.4"
             },
             "type": "library",
             "extra": {
@@ -133,36 +138,50 @@
                 }
             ],
             "description": "A fast PHP7 implementation of PSR-7",
-            "homepage": "http://tnyholm.se",
+            "homepage": "https://tnyholm.se",
             "keywords": [
                 "psr-17",
                 "psr-7"
             ],
-            "time": "2019-09-05T13:24:16+00:00"
+            "support": {
+                "issues": "https://github.com/Nyholm/psr7/issues",
+                "source": "https://github.com/Nyholm/psr7/tree/1.3.2"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/Zegnat",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/nyholm",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-11-14T17:35:34+00:00"
         },
         {
             "name": "nyholm/psr7-server",
-            "version": "0.3.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Nyholm/psr7-server.git",
-                "reference": "1b71a848fcb066fb805b7a9ab3f41ff65bffcde8"
+                "reference": "5c134aeb5dd6521c7978798663470dabf0528c96"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Nyholm/psr7-server/zipball/1b71a848fcb066fb805b7a9ab3f41ff65bffcde8",
-                "reference": "1b71a848fcb066fb805b7a9ab3f41ff65bffcde8",
+                "url": "https://api.github.com/repos/Nyholm/psr7-server/zipball/5c134aeb5dd6521c7978798663470dabf0528c96",
+                "reference": "5c134aeb5dd6521c7978798663470dabf0528c96",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1",
+                "php": "^7.1 || ^8.0",
                 "psr/http-factory": "^1.0",
                 "psr/http-message": "^1.0"
             },
             "require-dev": {
                 "nyholm/nsa": "^1.1",
-                "nyholm/psr7": "^1.0",
-                "phpunit/phpunit": "^7.0"
+                "nyholm/psr7": "^1.3",
+                "phpunit/phpunit": "^7.0 || ^8.5 || ^9.3"
             },
             "type": "library",
             "autoload": {
@@ -190,7 +209,21 @@
                 "psr-17",
                 "psr-7"
             ],
-            "time": "2018-09-02T10:41:28+00:00"
+            "support": {
+                "issues": "https://github.com/Nyholm/psr7-server/issues",
+                "source": "https://github.com/Nyholm/psr7-server/tree/1.0.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/Zegnat",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/nyholm",
+                    "type": "github"
+                }
+            ],
+            "time": "2020-11-15T15:26:20+00:00"
         },
         {
             "name": "php-http/message-factory",
@@ -240,6 +273,10 @@
                 "stream",
                 "uri"
             ],
+            "support": {
+                "issues": "https://github.com/php-http/message-factory/issues",
+                "source": "https://github.com/php-http/message-factory/tree/master"
+            },
             "time": "2015-12-19T14:08:53+00:00"
         },
         {
@@ -292,6 +329,9 @@
                 "request",
                 "response"
             ],
+            "support": {
+                "source": "https://github.com/php-fig/http-factory/tree/master"
+            },
             "time": "2019-04-30T12:38:16+00:00"
         },
         {
@@ -342,6 +382,9 @@
                 "request",
                 "response"
             ],
+            "support": {
+                "source": "https://github.com/php-fig/http-message/tree/master"
+            },
             "time": "2016-08-06T14:39:51+00:00"
         },
         {
@@ -395,6 +438,10 @@
                 "response",
                 "server"
             ],
+            "support": {
+                "issues": "https://github.com/php-fig/http-server-handler/issues",
+                "source": "https://github.com/php-fig/http-server-handler/tree/master"
+            },
             "time": "2018-10-30T16:46:14+00:00"
         },
         {
@@ -448,6 +495,10 @@
                 "request",
                 "response"
             ],
+            "support": {
+                "issues": "https://github.com/php-fig/http-server-middleware/issues",
+                "source": "https://github.com/php-fig/http-server-middleware/tree/master"
+            },
             "time": "2018-10-30T17:12:04+00:00"
         }
     ],
@@ -462,5 +513,6 @@
         "ext-json": "*",
         "ext-curl": "*"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.0.0"
 }
