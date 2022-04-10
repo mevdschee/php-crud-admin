@@ -12288,7 +12288,8 @@ namespace Tqdev\PhpCrudAdmin {
                         break;
                     case 'tables':
                         $tables = new TableService($api, $definition);
-                        new TableController($router, $responder, $tables);
+                        $controller = new TableController($router, $responder, $tables);
+                        $router->register('GET', '/', array($controller, '_list'));
                         break;
                 }
             }
