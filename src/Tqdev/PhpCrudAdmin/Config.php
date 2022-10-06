@@ -2,7 +2,9 @@
 
 namespace Tqdev\PhpCrudAdmin;
 
-class Config
+use Tqdev\PhpCrudApi\Config\Base\ConfigInterface;
+
+class Config implements ConfigInterface
 {
     private $values = [
         'url' => '',
@@ -26,6 +28,27 @@ class Config
             throw new \Exception("Config has invalid value '$key'");
         }
         $this->values = $newValues;
+    }
+
+    private function getEnvironmentVariableName(string $key): string
+    {
+        $prefix = "PHP_CRUD_ADMIN_";
+        $suffix = strtoupper(preg_replace('/(?<!^)[A-Z]/', '_$0', str_replace('.', '_', $key)));
+        return $prefix . $suffix;
+    }
+
+    public function getProperty(string $key, $default = '')
+    {
+        if (strpos($key, 'Handler')) {
+            return $this->values[$key] ?? $default;
+        }
+        $variableName = $this->getEnvironmentVariableName($key);
+        return getenv($variableName, true) ?: ($this->values[$key] ?? $default);
+    }
+
+    public function getMiddlewares(): array
+    {
+        return [];
     }
 
     public function getControllers(): array

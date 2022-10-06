@@ -49,4 +49,14 @@ class MultiResponder implements Responder
             throw new \Exception('Document type not supported: ' . get_class($result));
         }
     }
+
+    public function multi($results): ResponseInterface
+    {
+        return ResponseFactory::fromHtml(ResponseFactory::OK, (string) "Not supported");
+    }
+
+    public function exception($exception): ResponseInterface
+    {
+        return ResponseFactory::fromHtml(ResponseFactory::INTERNAL_SERVER_ERROR, (string) $exception);
+    }
 }
