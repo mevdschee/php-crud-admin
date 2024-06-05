@@ -13080,6 +13080,8 @@ namespace Tqdev\PhpCrudAdmin\Column {
     {
         private $api;
         private $database;
+        private $properties;
+
 
         public function __construct(CrudApi $api)
         {
