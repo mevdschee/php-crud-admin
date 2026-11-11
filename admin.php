@@ -1998,12 +1998,16 @@ namespace Nyholm\Psr7 {
 
         public function withProtocolVersion($version): self
         {
+            if (!\is_scalar($version)) {
+                throw new \InvalidArgumentException('Protocol version must be a string');
+            }
+
             if ($this->protocol === $version) {
                 return $this;
             }
 
             $new = clone $this;
-            $new->protocol = $version;
+            $new->protocol = (string) $version;
 
             return $new;
         }
@@ -2020,6 +2024,10 @@ namespace Nyholm\Psr7 {
 
         public function getHeader($header): array
         {
+            if (!\is_string($header)) {
+                throw new \InvalidArgumentException('Header name must be an RFC 7230 compatible string');
+            }
+
             $header = \strtr($header, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz');
             if (!isset($this->headerNames[$header])) {
                 return [];
@@ -2053,7 +2061,7 @@ namespace Nyholm\Psr7 {
         public function withAddedHeader($header, $value): self
         {
             if (!\is_string($header) || '' === $header) {
-                throw new \InvalidArgumentException('Header name must be an RFC 7230 compatible string.');
+                throw new \InvalidArgumentException('Header name must be an RFC 7230 compatible string');
             }
 
             $new = clone $this;
@@ -2064,6 +2072,10 @@ namespace Nyholm\Psr7 {
 
         public function withoutHeader($header): self
         {
+            if (!\is_string($header)) {
+                throw new \InvalidArgumentException('Header name must be an RFC 7230 compatible string');
+            }
+
             $normalized = \strtr($header, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz');
             if (!isset($this->headerNames[$normalized])) {
                 return $this;
@@ -2097,7 +2109,7 @@ namespace Nyholm\Psr7 {
             return $new;
         }
 
-        private function setHeaders(array $headers): void
+        private function setHeaders(array $headers) /*:void*/
         {
             foreach ($headers as $header => $value) {
                 if (\is_int($header)) {
@@ -2137,28 +2149,28 @@ namespace Nyholm\Psr7 {
          */
         private function validateAndTrimHeader($header, $values): array
         {
-            if (!\is_string($header) || 1 !== \preg_match("@^[!#$%&'*+.^_`|~0-9A-Za-z-]+$@", $header)) {
-                throw new \InvalidArgumentException('Header name must be an RFC 7230 compatible string.');
+            if (!\is_string($header) || 1 !== \preg_match("@^[!#$%&'*+.^_`|~0-9A-Za-z-]+$@D", $header)) {
+                throw new \InvalidArgumentException('Header name must be an RFC 7230 compatible string');
             }
 
             if (!\is_array($values)) {
                 // This is simple, just one value.
                 if ((!\is_numeric($values) && !\is_string($values)) || 1 !== \preg_match("@^[ \t\x21-\x7E\x80-\xFF]*$@", (string) $values)) {
-                    throw new \InvalidArgumentException('Header values must be RFC 7230 compatible strings.');
+                    throw new \InvalidArgumentException('Header values must be RFC 7230 compatible strings');
                 }
 
                 return [\trim((string) $values, " \t")];
             }
 
             if (empty($values)) {
-                throw new \InvalidArgumentException('Header values must be a string or an array of strings, empty array given.');
+                throw new \InvalidArgumentException('Header values must be a string or an array of strings, empty array given');
             }
 
             // Assert Non empty array
             $returnValues = [];
             foreach ($values as $v) {
-                if ((!\is_numeric($v) && !\is_string($v)) || 1 !== \preg_match("@^[ \t\x21-\x7E\x80-\xFF]*$@", (string) $v)) {
-                    throw new \InvalidArgumentException('Header values must be RFC 7230 compatible strings.');
+                if ((!\is_numeric($v) && !\is_string($v)) || 1 !== \preg_match("@^[ \t\x21-\x7E\x80-\xFF]*$@D", (string) $v)) {
+                    throw new \InvalidArgumentException('Header values must be RFC 7230 compatible strings');
                 }
 
                 $returnValues[] = \trim((string) $v, " \t");
@@ -2256,6 +2268,10 @@ namespace Nyholm\Psr7 {
 
         public function withRequestTarget($requestTarget): self
         {
+            if (!\is_string($requestTarget)) {
+                throw new \InvalidArgumentException('Request target must be a string');
+            }
+
             if (\preg_match('#\s#', $requestTarget)) {
                 throw new \InvalidArgumentException('Invalid request target provided; cannot contain whitespace');
             }
@@ -2304,7 +2320,7 @@ namespace Nyholm\Psr7 {
             return $new;
         }
 
-        private function updateHostFromUri(): void
+        private function updateHostFromUri() /*:void*/
         {
             if ('' === $host = $this->uri->getHost()) {
                 return;
@@ -2344,7 +2360,7 @@ namespace Nyholm\Psr7 {
         use MessageTrait;
 
         /** @var array Map of standard HTTP status code/reason phrases */
-        private const PHRASES = [
+        /*private*/ const PHRASES = [
             100 => 'Continue', 101 => 'Switching Protocols', 102 => 'Processing',
             200 => 'OK', 201 => 'Created', 202 => 'Accepted', 203 => 'Non-Authoritative Information', 204 => 'No Content', 205 => 'Reset Content', 206 => 'Partial Content', 207 => 'Multi-status', 208 => 'Already Reported',
             300 => 'Multiple Choices', 301 => 'Moved Permanently', 302 => 'Found', 303 => 'See Other', 304 => 'Not Modified', 305 => 'Use Proxy', 306 => 'Switch Proxy', 307 => 'Temporary Redirect',
@@ -2471,6 +2487,7 @@ namespace Nyholm\Psr7 {
             $this->uri = $uri;
             $this->setHeaders($headers);
             $this->protocol = $version;
+            \parse_str($uri->getQuery(), $this->queryParams);
 
             if (!$this->hasHeader('Host')) {
                 $this->updateHostFromUri();
@@ -2568,6 +2585,10 @@ namespace Nyholm\Psr7 {
          */
         public function getAttribute($attribute, $default = null)
         {
+            if (!\is_string($attribute)) {
+                throw new \InvalidArgumentException('Attribute name must be a string');
+            }
+
             if (false === \array_key_exists($attribute, $this->attributes)) {
                 return $default;
             }
@@ -2577,6 +2598,10 @@ namespace Nyholm\Psr7 {
 
         public function withAttribute($attribute, $value): self
         {
+            if (!\is_string($attribute)) {
+                throw new \InvalidArgumentException('Attribute name must be a string');
+            }
+
             $new = clone $this;
             $new->attributes[$attribute] = $value;
 
@@ -2585,6 +2610,10 @@ namespace Nyholm\Psr7 {
 
         public function withoutAttribute($attribute): self
         {
+            if (!\is_string($attribute)) {
+                throw new \InvalidArgumentException('Attribute name must be a string');
+            }
+
             if (false === \array_key_exists($attribute, $this->attributes)) {
                 return $this;
             }
@@ -2632,7 +2661,7 @@ namespace Nyholm\Psr7 {
         private $size;
 
         /** @var array Hash of readable and writable stream types */
-        private const READ_WRITE_HASH = [
+        /*private*/ const READ_WRITE_HASH = [
             'read' => [
                 'r' => true, 'w+' => true, 'r+' => true, 'x+' => true, 'c+' => true,
                 'rb' => true, 'w+b' => true, 'r+b' => true, 'x+b' => true,
@@ -2647,8 +2676,20 @@ namespace Nyholm\Psr7 {
             ],
         ];
 
-        private function __construct()
+        /**
+         * @param resource $body
+         */
+        public function __construct($body)
         {
+            if (!\is_resource($body)) {
+                throw new \InvalidArgumentException('First argument to Stream::__construct() must be resource');
+            }
+
+            $this->stream = $body;
+            $meta = \stream_get_meta_data($this->stream);
+            $this->seekable = $meta['seekable'] && 0 === \fseek($this->stream, 0, \SEEK_CUR);
+            $this->readable = isset(self::READ_WRITE_HASH['read'][$meta['mode']]);
+            $this->writable = isset(self::READ_WRITE_HASH['write'][$meta['mode']]);
         }
 
         /**
@@ -2667,21 +2708,15 @@ namespace Nyholm\Psr7 {
             if (\is_string($body)) {
                 $resource = \fopen('php://temp', 'rw+');
                 \fwrite($resource, $body);
+                \fseek($resource, 0);
                 $body = $resource;
             }
 
-            if (\is_resource($body)) {
-                $new = new self();
-                $new->stream = $body;
-                $meta = \stream_get_meta_data($new->stream);
-                $new->seekable = $meta['seekable'] && 0 === \fseek($new->stream, 0, \SEEK_CUR);
-                $new->readable = isset(self::READ_WRITE_HASH['read'][$meta['mode']]);
-                $new->writable = isset(self::READ_WRITE_HASH['write'][$meta['mode']]);
-
-                return $new;
+            if (!\is_resource($body)) {
+                throw new \InvalidArgumentException('First argument to Stream::create() must be a string, resource or StreamInterface');
             }
 
-            throw new \InvalidArgumentException('First argument to Stream::create() must be a string, resource or StreamInterface.');
+            return new self($body);
         }
 
         /**
@@ -2721,7 +2756,7 @@ namespace Nyholm\Psr7 {
             }
         }
 
-        public function close(): void
+        public function close() /*:void*/
         {
             if (isset($this->stream)) {
                 if (\is_resource($this->stream)) {
@@ -2754,7 +2789,7 @@ namespace Nyholm\Psr7 {
             return $this->uri;
         }
 
-        public function getSize(): ?int
+        public function getSize() /*:?int*/
         {
             if (null !== $this->size) {
                 return $this->size;
@@ -2802,7 +2837,7 @@ namespace Nyholm\Psr7 {
             return $this->seekable;
         }
 
-        public function seek($offset, $whence = \SEEK_SET): void
+        public function seek($offset, $whence = \SEEK_SET) /*:void*/
         {
             if (!isset($this->stream)) {
                 throw new \RuntimeException('Stream is detached');
@@ -2817,7 +2852,7 @@ namespace Nyholm\Psr7 {
             }
         }
 
-        public function rewind(): void
+        public function rewind() /*:void*/
         {
             $this->seek(0);
         }
@@ -2887,6 +2922,10 @@ namespace Nyholm\Psr7 {
          */
         public function getMetadata($key = null)
         {
+            if (null !== $key && !\is_string($key)) {
+                throw new \InvalidArgumentException('Metadata key must be a string');
+            }
+
             if (!isset($this->stream)) {
                 return $key ? null : [];
             }
@@ -2917,7 +2956,7 @@ namespace Nyholm\Psr7 {
     class UploadedFile implements UploadedFileInterface
     {
         /** @var array */
-        private const ERRORS = [
+        /*private*/ const ERRORS = [
             \UPLOAD_ERR_OK => 1,
             \UPLOAD_ERR_INI_SIZE => 1,
             \UPLOAD_ERR_FORM_SIZE => 1,
@@ -2959,7 +2998,7 @@ namespace Nyholm\Psr7 {
         public function __construct($streamOrFile, $size, $errorStatus, $clientFilename = null, $clientMediaType = null)
         {
             if (false === \is_int($errorStatus) || !isset(self::ERRORS[$errorStatus])) {
-                throw new \InvalidArgumentException('Upload file error status must be an integer value and one of the "UPLOAD_ERR_*" constants.');
+                throw new \InvalidArgumentException('Upload file error status must be an integer value and one of the "UPLOAD_ERR_*" constants');
             }
 
             if (false === \is_int($size)) {
@@ -2996,7 +3035,7 @@ namespace Nyholm\Psr7 {
         /**
          * @throws \RuntimeException if is moved or not ok
          */
-        private function validateActive(): void
+        private function validateActive() /*:void*/
         {
             if (\UPLOAD_ERR_OK !== $this->error) {
                 throw new \RuntimeException('Cannot retrieve stream due to upload error');
@@ -3022,7 +3061,7 @@ namespace Nyholm\Psr7 {
             return Stream::create($resource);
         }
 
-        public function moveTo($targetPath): void
+        public function moveTo($targetPath) /*:void*/
         {
             $this->validateActive();
 
@@ -3068,12 +3107,12 @@ namespace Nyholm\Psr7 {
             return $this->error;
         }
 
-        public function getClientFilename(): ?string
+        public function getClientFilename() /*:?string*/
         {
             return $this->clientFilename;
         }
 
-        public function getClientMediaType(): ?string
+        public function getClientMediaType() /*:?string*/
         {
             return $this->clientMediaType;
         }
@@ -3098,11 +3137,13 @@ namespace Nyholm\Psr7 {
      */
     class Uri implements UriInterface
     {
-        private const SCHEMES = ['http' => 80, 'https' => 443];
+        /*private*/ const SCHEMES = ['http' => 80, 'https' => 443];
 
-        private const CHAR_UNRESERVED = 'a-zA-Z0-9_\-\.~';
+        /*private*/ const CHAR_UNRESERVED = 'a-zA-Z0-9_\-\.~';
 
-        private const CHAR_SUB_DELIMS = '!\$&\'\(\)\*\+,;=';
+        /*private*/ const CHAR_SUB_DELIMS = '!\$&\'\(\)\*\+,;=';
+
+        /*private*/ const CHAR_GEN_DELIMS = ':\/\?#\[\]@';
 
         /** @var string Uri scheme. */
         private $scheme = '';
@@ -3184,14 +3225,27 @@ namespace Nyholm\Psr7 {
             return $this->host;
         }
 
-        public function getPort(): ?int
+        public function getPort() /*:?int*/
         {
             return $this->port;
         }
 
         public function getPath(): string
         {
-            return $this->path;
+            $path = $this->path;
+
+            if ('' !== $path && '/' !== $path[0]) {
+                if ('' !== $this->host) {
+                    // If the path is rootless and an authority is present, the path MUST be prefixed by "/"
+                    $path = '/' . $path;
+                }
+            } elseif (isset($path[1]) && '/' === $path[1]) {
+                // If the path is starting with more than one "/", the
+                // starting slashes MUST be reduced to one.
+                $path = '/' . \ltrim($path, '/');
+            }
+
+            return $path;
         }
 
         public function getQuery(): string
@@ -3223,9 +3277,17 @@ namespace Nyholm\Psr7 {
 
         public function withUserInfo($user, $password = null): self
         {
-            $info = $user;
+            if (!\is_string($user)) {
+                throw new \InvalidArgumentException('User must be a string');
+            }
+
+            $info = \preg_replace_callback('/[' . self::CHAR_GEN_DELIMS . self::CHAR_SUB_DELIMS . ']++/', [__CLASS__, 'rawurlencodeMatchZero'], $user);
             if (null !== $password && '' !== $password) {
-                $info .= ':' . $password;
+                if (!\is_string($password)) {
+                    throw new \InvalidArgumentException('Password must be a string');
+                }
+
+                $info .= ':' . \preg_replace_callback('/[' . self::CHAR_GEN_DELIMS . self::CHAR_SUB_DELIMS . ']++/', [__CLASS__, 'rawurlencodeMatchZero'], $password);
             }
 
             if ($this->userInfo === $info) {
@@ -3352,14 +3414,14 @@ namespace Nyholm\Psr7 {
             return !isset(self::SCHEMES[$scheme]) || $port !== self::SCHEMES[$scheme];
         }
 
-        private function filterPort($port): ?int
+        private function filterPort($port) /*:?int*/
         {
             if (null === $port) {
                 return null;
             }
 
             $port = (int) $port;
-            if (0 > $port || 0xffff < $port) {
+            if (0 > $port || 0xFFFF < $port) {
                 throw new \InvalidArgumentException(\sprintf('Invalid port: %d. Must be between 0 and 65535', $port));
             }
 
@@ -13081,7 +13143,6 @@ namespace Tqdev\PhpCrudAdmin\Column {
         private $api;
         private $database;
         private $properties;
-
 
         public function __construct(CrudApi $api)
         {
